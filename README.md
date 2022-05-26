@@ -5,7 +5,7 @@
 - [ ] Auth
     - [ ] Database structure
         - [ ] User
-            - [ ] ID (int, primary_key, autoincrement, unique, nullable = False)
+            - [ ] Id (int, primary_key, autoincrement, unique, nullable = False)
             - [ ] Username (str, unique, max_length = 150, nullable = False)
             - [ ] Email (str, unique, validate, nullable = False)
             - [ ] Password (str - hash, unique, validate, nullable = False)
@@ -14,6 +14,10 @@
             - [ ] OTP secret (str, default = otp secret, nullable = False)
             - [ ] Avatar (str, nullable = True)
             - [ ] Date joined (datetime, default = utcnow, nullable = False)
+        - [ ] Verification
+            - [ ] Id (int, primary_key, autoincrement, unique, nullable = False)
+            - [ ] Uuid (str, default = uuid4, nullable = False)
+        - [ ] Google account (Not clear yet)
     - [ ] Domain
     - [ ] Repository
     - [ ] Service layer
