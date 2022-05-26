@@ -17,13 +17,14 @@
         - [ ] Verification
             - [ ] Id (int, primary_key, autoincrement, unique, nullable = False)
             - [ ] Uuid (str, default = uuid4, nullable = False)
+            - [ ] Email (str, unique, validate, nullable = False)
         - [ ] Google account (Not clear yet)
     - [ ] Domain
     - [ ] Repository
     - [ ] Service layer
     - [ ] Unit of work (uow)
     - [ ] Functional
-        - [ ] Register
+        - [ ] Register (Send email with uuid => register)
             - [ ] Confirm email
                 - [ ] Celery
         - [ ] Login (cookies)
@@ -54,3 +55,9 @@
         - [ ] Integration
         - [ ] E2E
         - [ ] Coverage 100%
+    - [ ] Admin
+        - [ ] Get all users (filter, sort)
+        - [ ] Get user
+        - [ ] Create
+        - [ ] Update
+        - [ ] Delete
