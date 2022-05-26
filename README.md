@@ -1,0 +1,41 @@
+# Anti-Greenhouse
+
+## TODO
+
+- [ ] Auth
+    - [ ] Domain
+    - [ ] Repository
+    - [ ] Service layer
+    - [ ] Unit of work (uow)
+    - [ ] Functional
+        - [ ] Register
+            - [ ] Confirm email
+                - [ ] Celery
+        - [ ] Login (cookies)
+            - [ ] Access token
+            - [ ] Refresh token
+        - [ ] Logout
+        - [ ] Change data
+        - [ ] Change password
+        - [ ] Reset password
+        - [ ] Load / change / delete avatar (cloud)
+            - [ ] Get avatar
+        - [ ] My profile
+        - [ ] Get username by email
+        - [ ] Google auth
+        - [ ] Export user data
+            - [ ] Celery
+        - [ ] 2-step auth
+            - [ ] On / off
+            - [ ] Login
+            - [ ] Request OTP when user change password / reset password
+            - [ ] Request OTP when user change data
+        - [ ] Permissions
+            - [ ] Is anonymous user
+            - [ ] Is authenticated user
+            - [ ] Is superuser
+    - [ ] Tests
+        - [ ] Unit
+        - [ ] Integration
+        - [ ] E2E
+        - [ ] Coverage 100%
