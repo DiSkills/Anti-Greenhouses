@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from src.auth.domain import model
 
 
+# TODO add method remove
 class AbstractVerificationRepository(abc.ABC):
     """ Abstract repository """
 
@@ -15,10 +16,6 @@ class AbstractVerificationRepository(abc.ABC):
 
     @abc.abstractmethod
     def get(self, **filtration: str) -> typing.Optional[model.Verification]:
-        raise NotImplementedError()
-
-    @abc.abstractmethod
-    def list(self) -> list[model.Verification]:
         raise NotImplementedError()
 
 
@@ -33,6 +30,3 @@ class VerificationRepository(AbstractVerificationRepository):
 
     def get(self, **filtration: str) -> typing.Optional[model.Verification]:
         return self.session.query(model.Verification).filter_by(**filtration).first()
-
-    def list(self) -> list[model.Verification]:
-        return self.session.query(model.Verification).all()
