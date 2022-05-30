@@ -53,3 +53,22 @@ def test_repository_can_not_retrieve_a_verification(sqlite_session):
 
     retrieved = repo.get(email='bot@example.com')
     assert retrieved is None
+
+
+def test_repository_can_retrieve_verifications(sqlite_session):
+    _uuid1 = f'{uuid.uuid4()}'
+    _uuid2 = f'{uuid.uuid4()}'
+
+    sqlite_session.execute(
+        'INSERT INTO verifications (email, uuid) VALUES (:email1, :uuid1), (:email2, :uuid2)',
+        {'email1': 'user@example.com', 'uuid1': _uuid1, 'email2': 'python@example.com', 'uuid2': _uuid2},
+    )
+
+    expected = [
+        model.Verification(email='user@example.com', uuid=_uuid1),
+        model.Verification(email='python@example.com', uuid=_uuid2),
+    ]
+    repo = repository.VerificationRepository(session=sqlite_session)
+
+    retrieved = repo.list()
+    assert expected == retrieved
