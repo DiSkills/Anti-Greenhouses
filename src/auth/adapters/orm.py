@@ -1,9 +1,8 @@
 import sqlalchemy
 from sqlalchemy.orm import mapper
 
+from config import metadata
 from src.auth.domain import model
-
-metadata = sqlalchemy.MetaData()
 
 verifications = sqlalchemy.Table(
     'verifications',
