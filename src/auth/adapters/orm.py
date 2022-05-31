@@ -13,5 +13,5 @@ verifications = sqlalchemy.Table(
 )
 
 
-def start_mappers():
+def start_mappers() -> None:
     mapper(model.Verification, verifications)
