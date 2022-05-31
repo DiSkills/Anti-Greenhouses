@@ -53,3 +53,43 @@ def test_repository_can_not_retrieve_a_verification(sqlite_session):
 
     retrieved = repo.get(email='bot@example.com')
     assert retrieved is None
+
+
+def test_repository_can_remove_verification_by_email(sqlite_session):
+    _uuid1 = f'{uuid.uuid4()}'
+    _uuid2 = f'{uuid.uuid4()}'
+
+    sqlite_session.execute(
+        'INSERT INTO verifications (email, uuid) VALUES (:email1, :uuid1), (:email2, :uuid2)',
+        {'email1': 'user@example.com', 'uuid1': _uuid1, 'email2': 'python@example.com', 'uuid2': _uuid2},
+    )
+
+    rows = tuple(sqlite_session.execute('SELECT email, uuid FROM "verifications"'))
+    assert rows == (('user@example.com', _uuid1), ('python@example.com', _uuid2))
+
+    repo = repository.VerificationRepository(session=sqlite_session)
+    repo.remove(email='user@example.com')
+    sqlite_session.commit()
+
+    rows = tuple(sqlite_session.execute('SELECT email, uuid FROM "verifications"'))
+    assert rows == (('python@example.com', _uuid2),)
+
+
+def test_repository_can_remove_verification_by_uuid(sqlite_session):
+    _uuid1 = f'{uuid.uuid4()}'
+    _uuid2 = f'{uuid.uuid4()}'
+
+    sqlite_session.execute(
+        'INSERT INTO verifications (email, uuid) VALUES (:email1, :uuid1), (:email2, :uuid2)',
+        {'email1': 'user@example.com', 'uuid1': _uuid1, 'email2': 'python@example.com', 'uuid2': _uuid2},
+    )
+
+    rows = tuple(sqlite_session.execute('SELECT email, uuid FROM "verifications"'))
+    assert rows == (('user@example.com', _uuid1), ('python@example.com', _uuid2))
+
+    repo = repository.VerificationRepository(session=sqlite_session)
+    repo.remove(uuid=_uuid1)
+    sqlite_session.commit()
+    
+    rows = tuple(sqlite_session.execute('SELECT email, uuid FROM "verifications"'))
+    assert rows == (('python@example.com', _uuid2),)
