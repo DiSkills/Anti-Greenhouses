@@ -90,6 +90,6 @@ def test_repository_can_remove_verification_by_uuid(sqlite_session):
     repo = repository.VerificationRepository(session=sqlite_session)
     repo.remove(uuid=uuid1)
     sqlite_session.commit()
-    
+
     rows = tuple(sqlite_session.execute('SELECT email, uuid FROM "verifications"'))
     assert rows == (('python@example.com', uuid2),)
