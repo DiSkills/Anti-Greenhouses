@@ -4,5 +4,9 @@ mypy:
 pytest:
 	pytest --tb=short
 
+install:
+	pip install --upgrade pip
+	pip install poetry
+	poetry install
 
 test: mypy pytest
