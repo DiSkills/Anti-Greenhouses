@@ -1,8 +1,8 @@
 mypy:
-	mypy *.py src/ tests/ --check-untyped-defs
+	poetry run mypy *.py src/ tests/ --check-untyped-defs
 
 pytest:
-	pytest --tb=short
+	poetry run pytest --tb=short
 
 install:
 	pip install --upgrade pip
