@@ -1,5 +1,7 @@
 # Anti-Greenhouses
 
+![tests passing](https://github.com/Anti-Counter021/Anti-Greenhouses/workflows/Test/badge.svg)
+
 ## TODO
 
 - [ ] Auth
