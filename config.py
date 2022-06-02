@@ -20,3 +20,7 @@ def get_postgres_uri() -> str:
     DB_USER = os.environ.get('DB_USER', 'DB_USER')
     DB_PASSWORD = os.environ.get('DB_PASSWORD', 'DB_PASSWORD')
     return f'postgresql://{DB_USER}:{DB_PASSWORD}@{HOST}:{PORT}/{DB_NAME}'
+
+
+def get_host_url() -> str:
+    return os.environ.get('HOST_URL', 'http://localhost:8000/')
