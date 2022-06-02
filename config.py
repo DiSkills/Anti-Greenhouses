@@ -22,7 +22,7 @@ def get_app_settings() -> AppConfig:
     version = os.environ.get('VERSION', '0.1.0')
     description = os.environ.get('DESCRIPTION', 'Anti-Greenhouses by _Anti_')
 
-    logger.debug(f'Title: {title}, Version: {version}, Description: {description}')
+    logger.debug(f'[DEBUG] Title: {title}, Version: {version}, Description: {description}')
 
     return AppConfig(title=title, version=version, description=description)
 
@@ -36,7 +36,7 @@ def get_db_uri() -> str:
 
     uri = f'postgresql://{db_user}:{db_password}@{host}:{port}/{db_name}'
 
-    logger.debug(f'Database URI: {uri}')
+    logger.debug(f'[DEBUG] Database URI: {uri}')
 
     return uri
 

@@ -19,16 +19,16 @@ app = FastAPI(
 @app.on_event('startup')
 async def startup() -> None:
     config.start_mappers()
-    config.logger.debug('Mappers have been mapped')
+    config.logger.debug('[DEBUG] Mappers have been mapped')
 
     config.metadata.create_all(bind=engine)
-    config.logger.debug('All metadata has been created')
+    config.logger.debug('[DEBUG] All metadata has been created')
 
 
 @app.on_event('shutdown')
 async def shutdown() -> None:
     clear_mappers()
-    config.logger.debug('Mappers have been cleared')
+    config.logger.debug('[DEBUG] Mappers have been cleared')
 
     config.metadata.drop_all(bind=engine)
-    config.logger.debug('All metadata has been dropped')
+    config.logger.debug('[DEBUG] All metadata has been dropped')
