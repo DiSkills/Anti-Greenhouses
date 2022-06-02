@@ -1,2 +1,6 @@
 /venv/
 /.idea/
+/.mypy_cache/
+/.pytest_cache/
+
+/configs/config.env
