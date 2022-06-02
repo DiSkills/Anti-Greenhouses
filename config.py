@@ -6,7 +6,6 @@ import sqlalchemy
 
 metadata = sqlalchemy.MetaData()
 
-
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('API')
 
@@ -40,3 +39,8 @@ def get_db_uri() -> str:
     logger.debug(f'Database URI: {uri}')
 
     return uri
+
+
+def start_mappers() -> None:
+    from src.auth.adapters.orm import start_mappers as auth_start_mappers
+    auth_start_mappers()
