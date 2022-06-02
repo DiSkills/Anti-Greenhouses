@@ -1,6 +1,8 @@
 # Anti-Greenhouses
 
-![tests passing](https://github.com/Anti-Counter021/Anti-Greenhouses/workflows/Test/badge.svg)
+<a href="https://github.com/Anti-Counter021/Anti-Greenhouses/actions?query=workflow" target="_blank">
+    <img src="https://github.com/Anti-Counter021/Anti-Greenhouses/workflows/Test/badge.svg" alt="Test">
+</a>
 
 ## TODO
 
