@@ -20,4 +20,5 @@ def in_memory_db():
 
 @pytest.fixture()
 def sqlite_session(in_memory_db) -> Session:
-    return in_memory_db()
+    with in_memory_db() as session:
+        yield session
