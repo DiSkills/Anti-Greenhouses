@@ -13,6 +13,10 @@ def get_app_config() -> dict[typing.Literal['TITLE', 'VERSION', 'DESCRIPTION'], 
     return {'TITLE': TITLE, 'VERSION': VERSION, 'DESCRIPTION': DESCRIPTION}
 
 
-# TODO get_postgres_uri()
-def get_postgres_uri():
-    pass
+def get_postgres_uri() -> str:
+    HOST = os.environ.get('DB_HOST', 'localhost')
+    PORT = os.environ.get('DB_PORT', '5432')
+    DB_NAME = os.environ.get('DB_NAME', 'DB_NAME')
+    DB_USER = os.environ.get('DB_USER', 'DB_USER')
+    DB_PASSWORD = os.environ.get('DB_PASSWORD', 'DB_PASSWORD')
+    return f'postgresql://{DB_USER}:{DB_PASSWORD}@{HOST}:{PORT}/{DB_NAME}'
