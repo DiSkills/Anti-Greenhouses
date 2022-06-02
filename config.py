@@ -11,3 +11,8 @@ def get_app_config() -> dict[typing.Literal['TITLE', 'VERSION', 'DESCRIPTION'], 
     VERSION = os.environ.get('VERSION', '0.1.0')
     DESCRIPTION = os.environ.get('DESCRIPTION', 'DESCRIPTION')
     return {'TITLE': TITLE, 'VERSION': VERSION, 'DESCRIPTION': DESCRIPTION}
+
+
+# TODO get_postgres_uri()
+def get_postgres_uri():
+    pass
