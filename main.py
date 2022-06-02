@@ -7,7 +7,7 @@ import config
 app_config = config.get_app_settings()
 
 engine = create_engine(url=config.get_db_uri())
-get_session = sessionmaker(bind=engine, expire_on_commit=False)
+get_session = sessionmaker(bind=engine, expire_on_commit=False)  # TODO {maybe} expire_on_commit=True
 
 app = FastAPI(
     title=app_config.title,
@@ -18,11 +18,11 @@ app = FastAPI(
 
 @app.on_event('startup')
 async def startup() -> None:
-    config.metadata.create_all(bind=engine)
-    config.logger.debug('All metadata has been created')
-
     config.start_mappers()
     config.logger.debug('Mappers have been mapped')
+
+    config.metadata.create_all(bind=engine)
+    config.logger.debug('All metadata has been created')
 
 
 @app.on_event('shutdown')
