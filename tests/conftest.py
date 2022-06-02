@@ -1,6 +1,8 @@
 import time
 
 import pytest
+import requests
+from pathlib import Path
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import OperationalError
@@ -38,6 +40,17 @@ def wait_for_postgres_to_come_up(*, engine: Engine):
     pytest.fail('Postgres never came up')
 
 
+def wait_for_app_to_come_up():
+    deadline = time.time() + 10
+    url = config.get_host_url()
+    while time.time() < deadline:
+        try:
+            return requests.get(url=url)
+        except requests.ConnectionError:
+            time.sleep(0.5)
+    pytest.fail('API never came up')
+
+
 @pytest.fixture()
 def postgres_db():
     engine = create_engine(config.get_postgres_uri())
@@ -56,3 +69,10 @@ def postgres_db():
 @pytest.fixture()
 def postgres_session(postgres_db) -> Session:
     return postgres_db()
+
+
+@pytest.fixture()
+def restart_api():
+    (Path(__file__).parent / '../main.py').touch()
+    time.sleep(0.5)
+    wait_for_app_to_come_up()
