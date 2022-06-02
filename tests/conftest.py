@@ -1,3 +1,5 @@
+import typing
+
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, clear_mappers, Session
@@ -19,6 +21,6 @@ def in_memory_db():
 
 
 @pytest.fixture()
-def sqlite_session(in_memory_db) -> Session:
+def sqlite_session(in_memory_db) -> typing.Generator[Session, None, None]:
     with in_memory_db() as session:
         yield session
