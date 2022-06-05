@@ -14,4 +14,10 @@ verifications = sqlalchemy.Table(
 
 
 def start_mappers() -> None:
+    """
+        Mapping a domain area to a database
+        :return: None
+        :rtype: None
+    """
+
     mapper(model.Verification, verifications)
