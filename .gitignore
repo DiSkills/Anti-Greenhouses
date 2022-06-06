@@ -4,4 +4,5 @@
 /.pytest_cache/
 /.mypy_cache/
 
-/configs/config.*.env
+/configs/config.app.env
+/configs/config.db.env
