@@ -1,5 +1,7 @@
 # Anti-Greenhouses
 
+---
+
 <a href="https://github.com/Anti-Counter021/Anti-Greenhouses/actions?query=workflow" target="_blank">
     <img src="https://github.com/Anti-Counter021/Anti-Greenhouses/actions/workflows/test.yml/badge.svg" alt="Test">
 </a>
