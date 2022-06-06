@@ -12,17 +12,19 @@
     <img src="https://img.shields.io/badge/python-3.9.5-brightgreen" alt="Python version"/>
 </a>
 
-<a href="https://github.com/Anti-Counter021/Anti-Greenhouses/blob/master/LICENSE" target="_blank">
-    <img src="https://img.shields.io/github/license/Anti-Counter021/Anti-Greenhouses" alt="license"/>
-</a>
-
 <a href="https://github.com/Anti-Counter021/Anti-Greenhouses/blob/master/pyproject.toml" target="_blank">
     <img src="https://img.shields.io/badge/API-v0.1.0-brightgreen" alt="API version"/>
+</a>
+
+<a href="https://github.com/Anti-Counter021/Anti-Greenhouses/blob/master/LICENSE" target="_blank">
+    <img src="https://img.shields.io/github/license/Anti-Counter021/Anti-Greenhouses" alt="license"/>
 </a>
 
 <a href="https://opensource.org/docs/definition.php" target="_blank">
     <img src="https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github" alt="Open source"/>
 </a>
+
+---
 
 ## TODO
 
