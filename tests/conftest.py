@@ -1,10 +1,13 @@
 import typing
+from dataclasses import dataclass
 
 import pytest
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, clear_mappers, Session
 
-from config import metadata, start_mappers
+import main
+from config import metadata, start_mappers, get_session
 
 
 @pytest.fixture()
@@ -24,3 +27,16 @@ def in_memory_db():
 def sqlite_session(in_memory_db) -> typing.Generator[Session, None, None]:
     with in_memory_db() as session:
         yield session
+
+
+@dataclass
+class E2E:
+    client: TestClient
+    session: Session
+
+
+@pytest.fixture()
+def e2e() -> typing.Generator[E2E, None, None]:
+    with TestClient(app=main.app) as client:
+        with get_session() as session:
+            yield E2E(client=client, session=session)

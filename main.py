@@ -1,13 +1,10 @@
 from fastapi import FastAPI
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, clear_mappers
+from sqlalchemy.orm import clear_mappers
 
 import config
+from src.auth.entrypoints.routers.verifications import verifications
 
 app_config = config.get_app_settings()
-
-engine = create_engine(url=config.get_db_uri())
-get_session = sessionmaker(bind=engine, expire_on_commit=False)  # TODO {maybe} expire_on_commit=True
 
 app = FastAPI(
     title=app_config.title,
@@ -21,7 +18,7 @@ async def startup() -> None:
     config.start_mappers()
     config.logger.debug('[DEBUG] Mappers have been mapped')
 
-    config.metadata.create_all(bind=engine)
+    config.metadata.create_all(bind=config.engine)
     config.logger.debug('[DEBUG] All metadata has been created')
 
 
@@ -30,5 +27,8 @@ async def shutdown() -> None:
     clear_mappers()
     config.logger.debug('[DEBUG] Mappers have been cleared')
 
-    config.metadata.drop_all(bind=engine)
+    config.metadata.drop_all(bind=config.engine)
     config.logger.debug('[DEBUG] All metadata has been dropped')
+
+
+app.include_router(verifications, prefix=config.get_api_url())
