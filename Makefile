@@ -7,6 +7,8 @@ mypy:
 pytest:
 	poetry run pytest --tb=short
 
+test: mypy pytest
+
 install:
 	pip install --upgrade pip
 	pip install poetry
@@ -25,3 +27,7 @@ down:
 	docker-compose down
 
 production: down build up
+
+testing: down build
+	docker-compose up -d
+	docker-compose run --rm --no-deps --entrypoint="make test" api
