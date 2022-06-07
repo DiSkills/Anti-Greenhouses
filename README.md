@@ -102,8 +102,9 @@
 
 ## TODO
 
+- [x] Docker
+- [x] GitHub actions
 - [ ] Auth
-    - [x] Docker
     - [ ] Database structure
         - [ ] User
             - [ ] Id (int, primary_key, autoincrement, unique, nullable = False)
