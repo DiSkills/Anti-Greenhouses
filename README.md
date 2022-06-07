@@ -52,6 +52,10 @@
     <img alt="SQLite" src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white"/>
 </a>
 
+<a href="https://www.docker.com/" target="_blank">
+    <img alt="Docker" src="https://img.shields.io/badge/-Docker-46a2f1?style=for-the-badge&logo=docker&logoColor=white"/>
+</a>
+
 <a href="https://github.com/features/actions" target="_blank">
     <img alt="GitHub actions" src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"/>
 </a>
@@ -80,9 +84,26 @@
 
 ---
 
+## Quick start
+
+    You need docker, docker-compose and make.
+
+    Change the config.example.***.env files in the directory "./configs/" to configs.***.env and add the values.
+
+### Production
+
+    make production
+
+### Testing
+
+    make testing
+
+---
+
 ## TODO
 
 - [ ] Auth
+    - [x] Docker
     - [ ] Database structure
         - [ ] User
             - [ ] Id (int, primary_key, autoincrement, unique, nullable = False)

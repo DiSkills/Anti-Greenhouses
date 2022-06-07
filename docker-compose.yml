@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    env_file:
+      - configs/config.docker.db.env
+    ports:
+      - "5431:5431"
+
+  api:
+    container_name: api
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+    command: make server
+    volumes:
+      - ./:/app
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+    env_file:
+      - configs/config.app.env
+      - configs/config.db.env

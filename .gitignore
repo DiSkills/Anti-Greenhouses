@@ -6,3 +6,4 @@
 
 /configs/config.app.env
 /configs/config.db.env
+/configs/config.docker.db.env
