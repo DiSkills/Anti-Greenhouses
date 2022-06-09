@@ -3,7 +3,7 @@
 ---
 
 <a href="https://github.com/Anti-Counter021/Anti-Greenhouses/actions?query=workflow" target="_blank">
-    <img src="https://github.com/Anti-Counter021/Anti-Greenhouses/actions/workflows/test.yml/badge.svg" alt="Test">
+    <img src="https://github.com/Anti-Counter021/Anti-Greenhouses/actions/workflows/test.yml/badge.svg" alt="Test"/>
 </a>
 
 <a href="https://github.com/Anti-Counter021/Anti-Greenhouses/search?l=python" target="_blank">
@@ -104,46 +104,3 @@
 
 - [x] Docker
 - [x] GitHub actions
-- [ ] Auth
-    - [ ] Domain
-    - [ ] Repository
-    - [ ] Service layer
-    - [ ] Unit of work (uow)
-    - [ ] Functional
-        - [ ] Register (Send email with uuid => register)
-            - [ ] Confirm email
-                - [ ] Celery
-        - [ ] Login (cookies)
-            - [ ] Access token
-            - [ ] Refresh token
-        - [ ] Logout
-        - [ ] Change data
-        - [ ] Change password
-        - [ ] Reset password
-        - [ ] Load / change / delete avatar (cloud)
-            - [ ] Get avatar
-        - [ ] My profile
-        - [ ] Get username by email
-        - [ ] Google auth
-        - [ ] Export user data
-            - [ ] Celery
-        - [ ] 2-step auth
-            - [ ] On / off
-            - [ ] Login
-            - [ ] Request OTP when user change password / reset password
-            - [ ] Request OTP when user change data
-        - [ ] Permissions
-            - [ ] Is anonymous user
-            - [ ] Is authenticated user
-            - [ ] Is superuser
-    - [ ] Tests
-        - [ ] Unit
-        - [ ] Integration
-        - [ ] E2E
-        - [ ] Coverage 100%
-    - [ ] Admin
-        - [ ] Get all users (filter, sort)
-        - [ ] Get user
-        - [ ] Create
-        - [ ] Update
-        - [ ] Delete
