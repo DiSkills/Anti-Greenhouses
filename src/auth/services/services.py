@@ -9,6 +9,7 @@ from tests.auth.fake_repositories import FakeVerificationRepository
 
 # TODO add error when user with this email exists
 def registration_request(*, email: str, repository: Union[VerificationRepository, FakeVerificationRepository]) -> None:
+
     if repository.get(email=email) is not None:
         # TODO send email
         raise exceptions.VerificationExists(
