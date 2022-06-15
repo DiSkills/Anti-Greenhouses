@@ -97,10 +97,3 @@
 ### Testing
 
     make testing
-
----
-
-## TODO
-
-- [x] Docker
-- [x] GitHub actions
