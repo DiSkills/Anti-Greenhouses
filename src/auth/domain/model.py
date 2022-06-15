@@ -15,3 +15,6 @@ class Verification:
 
     def __repr__(self) -> str:
         return f'<Verification {self.uuid}>'
+
+    def __hash__(self) -> int:
+        return hash(self.uuid)
