@@ -25,7 +25,7 @@ async def registration_request(schema: schemas.RegistrationRequest) -> dict[typi
         repo = VerificationRepository(session=session)
 
         try:
-            services.registration_request(email=schema.email, repository=repo)
+            services.registration_request(email=schema.email, repository=repo, session=session)
         except exceptions.VerificationExists:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,

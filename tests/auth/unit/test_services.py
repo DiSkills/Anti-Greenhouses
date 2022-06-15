@@ -14,7 +14,7 @@ def test_registration_request_create_a_verification():
 
     assert repo.session.committed is False
 
-    services.registration_request(email='user@example.com', repository=repo)
+    services.registration_request(email='user@example.com', repository=repo, session=session)
 
     assert repo.session.committed is True
 
@@ -29,6 +29,6 @@ def test_registration_request_verification_with_this_email_exists():
 
     error_text = 'Verification with this email already exists, we sent you another email with a code.'
     with pytest.raises(exceptions.VerificationExists, match=error_text):
-        services.registration_request(email='user@example.com', repository=repo)
+        services.registration_request(email='user@example.com', repository=repo, session=session)
 
     assert repo.session.committed is False
