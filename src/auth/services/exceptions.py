@@ -1,0 +1,2 @@
+class VerificationExists(Exception):
+    pass
