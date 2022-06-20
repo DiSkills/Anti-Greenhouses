@@ -4,31 +4,25 @@ import pytest
 
 from src.auth.domain import model
 from src.auth.services import services, exceptions
-from tests.auth import fake_repositories
+from tests.auth import fake_uow
 
 
 def test_registration_request_create_a_verification():
-    session = fake_repositories.FakeSession()
+    uow = fake_uow.FakeVerificationUnitOfWork()
+    assert uow.committed is False
 
-    repo = fake_repositories.FakeVerificationRepository(session=session, verifications=[])
+    services.registration_request(email='user@example.com', uow=uow)
 
-    assert repo.session.committed is False
-
-    services.registration_request(email='user@example.com', repository=repo, session=session)
-
-    assert repo.session.committed is True
+    assert uow.committed is True
 
 
 def test_registration_request_verification_with_this_email_exists():
-    session = fake_repositories.FakeSession()
-
-    verifications = [model.Verification(email='user@example.com', uuid=f'{uuid.uuid4()}')]
-    repo = fake_repositories.FakeVerificationRepository(session=session, verifications=verifications)
-
-    assert repo.session.committed is False
+    uow = fake_uow.FakeVerificationUnitOfWork()
+    assert uow.committed is False
+    uow.verifications.add(verification=model.Verification(email='user@example.com', uuid=f'{uuid.uuid4()}'))
 
     error_text = 'Verification with this email already exists, we sent you another email with a code.'
     with pytest.raises(exceptions.VerificationExists, match=error_text):
-        services.registration_request(email='user@example.com', repository=repo, session=session)
+        services.registration_request(email='user@example.com', uow=uow)
 
-    assert repo.session.committed is False
+    assert uow.committed is False
