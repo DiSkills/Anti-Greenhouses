@@ -4,6 +4,8 @@ from src.auth.domain import model
 
 
 class FakeSession:
+    """ Fake session """
+
     committed = False
 
     def commit(self) -> None:
@@ -21,14 +23,15 @@ class FakeVerificationRepository:
         self._verifications.add(verification)
 
     def _get(self, **filtration: str) -> typing.Optional[model.Verification]:
+        # Get by email and uuid
         if ('email' in filtration) and ('uuid' in filtration):
             return next(
                 v for v in self._verifications if (v.email == filtration['email']) and (v.uuid == filtration['uuid'])
             )
-
+        # Get by email
         elif 'email' in filtration:
             return next(v for v in self._verifications if v.email == filtration['email'])
-
+        # Get by uuid
         elif 'uuid' in filtration:
             return next(v for v in self._verifications if v.uuid == filtration['uuid'])
 

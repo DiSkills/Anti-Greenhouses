@@ -8,11 +8,7 @@ from tests.auth.fake_uow import FakeVerificationUnitOfWork
 
 
 # TODO add error when user with this email exists
-def registration_request(
-    *,
-    email: str,
-    uow: Union[VerificationUnitOfWork, FakeVerificationUnitOfWork],
-) -> None:
+def registration_request(*, email: str, uow: Union[VerificationUnitOfWork, FakeVerificationUnitOfWork]) -> None:
 
     with uow:
         if uow.verifications.get(email=email) is not None:
