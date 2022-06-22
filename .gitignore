@@ -5,5 +5,7 @@
 /.mypy_cache/
 
 /configs/config.app.env
+/configs/config.celery.env
 /configs/config.db.env
 /configs/config.docker.db.env
+/configs/config.docker.worker.env
