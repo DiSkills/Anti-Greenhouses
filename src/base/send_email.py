@@ -74,3 +74,15 @@ class Email:
         cls._add_payload(message=message, text=text, html=html, files=files)
 
         cls.__send(message=message)
+
+
+def send_email(
+    *,
+    subject: str,
+    recipient: str,
+    text: str,
+    html: Optional[str] = None,
+    files: Optional[list[File]] = None,
+) -> None:
+    from worker import send_email_task
+    send_email_task.delay(subject=subject, recipient=recipient, text=text, html=html, files=files)
