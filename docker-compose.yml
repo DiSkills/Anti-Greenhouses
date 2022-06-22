@@ -9,6 +9,14 @@ services:
     ports:
       - "5431:5431"
 
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq
+    env_file:
+      - configs/config.docker.worker.env
+    ports:
+      - "5672:5672"
+
   api:
     container_name: api
     build:
@@ -24,6 +32,10 @@ services:
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
+      - CELERY_HOST=rabbitmq
+      - CELERY_PORT=5672
+      - CELERY_RESULT=rpc://
     env_file:
       - configs/config.app.env
       - configs/config.db.env
+      - configs/config.celery.env
