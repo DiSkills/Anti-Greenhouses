@@ -9,3 +9,4 @@
 /configs/config.db.env
 /configs/config.docker.db.env
 /configs/config.docker.worker.env
+/configs/config.email.env

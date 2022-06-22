@@ -39,6 +39,7 @@ services:
       - configs/config.app.env
       - configs/config.db.env
       - configs/config.celery.env
+      - configs/config.email.env
 
   worker:
     container_name: worker
@@ -61,6 +62,7 @@ services:
       - configs/config.app.env
       - configs/config.db.env
       - configs/config.celery.env
+      - configs/config.email.env
 
   # For development
   flower:
@@ -85,3 +87,4 @@ services:
       - configs/config.app.env
       - configs/config.db.env
       - configs/config.celery.env
+      - configs/config.email.env
