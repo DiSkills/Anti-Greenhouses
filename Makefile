@@ -17,6 +17,12 @@ install:
 server:
 	poetry run uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
+worker:
+	poetry run celery -A worker.celery worker
+
+flower:
+	poetry run celery -A worker.celery flower --port=5555
+
 build:
 	docker-compose build
 
