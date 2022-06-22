@@ -47,7 +47,7 @@ class CeleryConfig:
 class EmailConfig:
     sender_email: str
     sender_password: str
-    server: str
+    host: str
     port: int
 
 
@@ -80,15 +80,15 @@ def get_celery_settings() -> CeleryConfig:
 
 
 def get_email_settings() -> EmailConfig:
-    server = os.environ.get('EMAIL_SERVER', 'smtp.gmail.com')
+    host = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
     port = int(os.environ.get('EMAIL_PORT', 587))
 
     sender_email = os.environ.get('EMAIL_USER', 'EMAIL_USER')
     sender_password = os.environ.get('EMAIL_PASSWORD', 'EMAIL_PASSWORD')
 
-    logger.debug(f'[DEBUG] Email: {sender_email}, Password: {sender_password}, Server: {server}:{port}')
+    logger.debug(f'[DEBUG] Email: {sender_email}, Password: {sender_password}, Server: {host}:{port}')
 
-    return EmailConfig(server=server, port=port, sender_email=sender_email, sender_password=sender_password)
+    return EmailConfig(host=host, port=port, sender_email=sender_email, sender_password=sender_password)
 
 
 def start_mappers() -> None:
