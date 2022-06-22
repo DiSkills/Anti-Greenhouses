@@ -37,6 +37,20 @@ class AppConfig:
     description: str
 
 
+@dataclass
+class CeleryConfig:
+    broker: str
+    result: str
+
+
+@dataclass
+class EmailConfig:
+    sender_email: str
+    sender_password: str
+    host: str
+    port: int
+
+
 def get_app_settings() -> AppConfig:
     title = os.environ.get('TITLE', 'Anti-Greenhouses')
     version = os.environ.get('VERSION', '0.1.0')
@@ -49,6 +63,32 @@ def get_app_settings() -> AppConfig:
 
 def get_api_url() -> str:
     return os.environ.get('API_URL', '/api/v1')
+
+
+def get_celery_settings() -> CeleryConfig:
+    host = os.environ.get('CELERY_HOST', 'localhost')
+    port = os.environ.get('CELERY_PORT', '5672')
+    celery_user = os.environ.get('CELERY_USER', 'CELERY_USER')
+    celery_password = os.environ.get('CELERY_PASSWORD', 'CELERY_PASSWORD')
+
+    broker = f'amqp://{celery_user}:{celery_password}@{host}:{port}//'
+    result = os.environ.get('CELERY_RESULT', 'rpc://')
+
+    logger.debug(f'[DEBUG] Celery broker: {broker}, Celery result: {result}')
+
+    return CeleryConfig(broker=broker, result=result)
+
+
+def get_email_settings() -> EmailConfig:
+    host = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+    port = int(os.environ.get('EMAIL_PORT', 587))
+
+    sender_email = os.environ.get('EMAIL_USER', 'EMAIL_USER')
+    sender_password = os.environ.get('EMAIL_PASSWORD', 'EMAIL_PASSWORD')
+
+    logger.debug(f'[DEBUG] Email: {sender_email}, Password: {sender_password}, Server: {host}:{port}')
+
+    return EmailConfig(host=host, port=port, sender_email=sender_email, sender_password=sender_password)
 
 
 def start_mappers() -> None:
