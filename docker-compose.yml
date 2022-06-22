@@ -39,3 +39,25 @@ services:
       - configs/config.app.env
       - configs/config.db.env
       - configs/config.celery.env
+
+  worker:
+    container_name: worker
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - api
+    command: make worker
+    volumes:
+      - ./:/app
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - CELERY_HOST=rabbitmq
+      - CELERY_PORT=5672
+      - CELERY_RESULT=rpc://
+    env_file:
+      - configs/config.app.env
+      - configs/config.db.env
+      - configs/config.celery.env
