@@ -43,6 +43,11 @@ jobs:
       DB_HOST: localhost
       DB_PORT: 5432
 
+      EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+      EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+      EMAIL_USER: ${{ secrets.EMAIL_USER }}
+      EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+
     steps:
       - uses: actions/checkout@v3
 
