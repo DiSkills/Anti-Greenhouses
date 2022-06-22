@@ -37,6 +37,12 @@ class AppConfig:
     description: str
 
 
+@dataclass
+class CeleryConfig:
+    broker: str
+    result: str
+
+
 def get_app_settings() -> AppConfig:
     title = os.environ.get('TITLE', 'Anti-Greenhouses')
     version = os.environ.get('VERSION', '0.1.0')
@@ -49,6 +55,20 @@ def get_app_settings() -> AppConfig:
 
 def get_api_url() -> str:
     return os.environ.get('API_URL', '/api/v1')
+
+
+def get_celery_settings() -> CeleryConfig:
+    host = os.environ.get('CELERY_HOST', 'localhost')
+    port = os.environ.get('CELERY_PORT', '5672')
+    celery_user = os.environ.get('CELERY_USER', 'CELERY_USER')
+    celery_password = os.environ.get('CELERY_PASSWORD', 'CELERY_PASSWORD')
+
+    broker = f'amqp://{celery_user}:{celery_password}@{host}:{port}//'
+    result = os.environ.get('CELERY_RESULT', 'rpc://')
+
+    logger.debug(f'[DEBUG] Celery broker: {broker}\nCelery result: {result}')
+
+    return CeleryConfig(broker=broker, result=result)
 
 
 def start_mappers() -> None:
