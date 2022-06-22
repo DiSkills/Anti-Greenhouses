@@ -5,7 +5,10 @@ from fastapi import status
 from main import app
 
 
-def test_registration_request_return_201_and_create_a_verification(e2e):
+def test_registration_request_return_201_and_create_a_verification(mocker, e2e):
+    mocker.patch('src.base.send_email.send_email', return_value=None)
+    mocker.patch('worker.send_email_task', return_value=None)
+
     rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
     assert rows == ()
 
@@ -21,7 +24,10 @@ def test_registration_request_return_201_and_create_a_verification(e2e):
     assert rows == (('user@example.com', rows[0][1]),)
 
 
-def test_registration_request_return_400_when_verification_with_this_email_exists(e2e):
+def test_registration_request_return_400_when_verification_with_this_email_exists(mocker, e2e):
+    mocker.patch('src.base.send_email.send_email', return_value=None)
+    mocker.patch('worker.send_email_task', return_value=None)
+
     email = 'user@example.com'
     _uuid = f'{uuid.uuid4()}'
     e2e.session.execute(

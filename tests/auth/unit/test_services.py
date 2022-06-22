@@ -7,7 +7,10 @@ from src.auth.services import services, exceptions
 from tests.auth import fake_uow
 
 
-def test_registration_request_create_a_verification():
+def test_registration_request_create_a_verification(mocker):
+    mocker.patch('src.base.send_email.send_email', return_value=None)
+    mocker.patch('worker.send_email_task', return_value=None)
+
     uow = fake_uow.FakeVerificationUnitOfWork()
     assert uow.committed is False
 
@@ -16,7 +19,10 @@ def test_registration_request_create_a_verification():
     assert uow.committed is True
 
 
-def test_registration_request_verification_with_this_email_exists():
+def test_registration_request_verification_with_this_email_exists(mocker):
+    mocker.patch('src.base.send_email.send_email', return_value=None)
+    mocker.patch('worker.send_email_task', return_value=None)
+
     uow = fake_uow.FakeVerificationUnitOfWork()
     assert uow.committed is False
     uow.verifications.add(verification=model.Verification(email='user@example.com', uuid=f'{uuid.uuid4()}'))
