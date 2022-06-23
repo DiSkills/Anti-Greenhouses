@@ -11,7 +11,7 @@ def test_registration_request_create_a_verification(mocker):
     mocker.patch('src.base.send_email.send_email', return_value=None)
     mocker.patch('worker.send_email_task', return_value=None)
 
-    uow = fake_uow.FakeVerificationUnitOfWork()
+    uow = fake_uow.FakeUnitOfWork()
     assert uow.committed is False
 
     services.registration_request(email='user@example.com', uow=uow)
@@ -23,7 +23,7 @@ def test_registration_request_verification_with_this_email_exists(mocker):
     mocker.patch('src.base.send_email.send_email', return_value=None)
     mocker.patch('worker.send_email_task', return_value=None)
 
-    uow = fake_uow.FakeVerificationUnitOfWork()
+    uow = fake_uow.FakeUnitOfWork()
     assert uow.committed is False
     uow.verifications.add(verification=model.Verification(email='user@example.com', uuid=f'{uuid.uuid4()}'))
 

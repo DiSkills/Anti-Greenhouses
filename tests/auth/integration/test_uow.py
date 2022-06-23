@@ -3,13 +3,13 @@ import uuid
 import pytest
 
 from src.auth.domain import model
-from src.auth.services.uow.verifications import VerificationUnitOfWork
+from src.auth.services.uow import UnitOfWork
 
 
 def test_uow_can_save_a_verification(in_memory_db):
     _uuid = f'{uuid.uuid4()}'
 
-    uow = VerificationUnitOfWork(session_factory=in_memory_db)
+    uow = UnitOfWork(session_factory=in_memory_db)
     with uow:
         verification = model.Verification(email='user@example.com', uuid=_uuid)
         uow.verifications.add(verification=verification)
@@ -23,7 +23,7 @@ def test_uow_can_save_a_verification(in_memory_db):
 def test_rolls_back_uncommitted_work_by_default(in_memory_db):
     _uuid = f'{uuid.uuid4()}'
 
-    uow = VerificationUnitOfWork(session_factory=in_memory_db)
+    uow = UnitOfWork(session_factory=in_memory_db)
     with uow:
         verification = model.Verification(email='user@example.com', uuid=_uuid)
         uow.verifications.add(verification=verification)
@@ -36,7 +36,7 @@ def test_rolls_back_uncommitted_work_by_default(in_memory_db):
 def test_rolls_back_on_error(in_memory_db):
     _uuid = f'{uuid.uuid4()}'
 
-    uow = VerificationUnitOfWork(session_factory=in_memory_db)
+    uow = UnitOfWork(session_factory=in_memory_db)
     with pytest.raises(Exception):
         with uow:
             verification = model.Verification(email='user@example.com', uuid=_uuid)

@@ -4,8 +4,8 @@ import config
 from src.auth.adapters.repositories.verification import VerificationRepository
 
 
-class VerificationUnitOfWork:
-    """ Verification Unit of Work """
+class UnitOfWork:
+    """ Unit of Work """
 
     verifications: VerificationRepository
     session: Session

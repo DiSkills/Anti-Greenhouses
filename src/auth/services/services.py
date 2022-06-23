@@ -3,13 +3,13 @@ from typing import Union
 
 from src.auth.domain import model
 from src.auth.services import exceptions
-from src.auth.services.uow.verifications import VerificationUnitOfWork
+from src.auth.services.uow import UnitOfWork
 from src.base.send_email import send_email
-from tests.auth.fake_uow import FakeVerificationUnitOfWork
+from tests.auth.fake_uow import FakeUnitOfWork
 
 
 # TODO add error when user with this email exists
-def registration_request(*, email: str, uow: Union[VerificationUnitOfWork, FakeVerificationUnitOfWork]) -> None:
+def registration_request(*, email: str, uow: Union[UnitOfWork, FakeUnitOfWork] = UnitOfWork()) -> None:
 
     with uow:
         verification = uow.verifications.get(email=email)
