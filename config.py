@@ -1,6 +1,7 @@
 import logging
 import os
 from dataclasses import dataclass
+from enum import Enum
 
 import sqlalchemy
 from sqlalchemy import create_engine
@@ -49,6 +50,10 @@ class EmailConfig:
     sender_password: str
     host: str
     port: int
+
+
+class UserActionType(Enum):
+    registered = 'User registered'
 
 
 def get_app_settings() -> AppConfig:
