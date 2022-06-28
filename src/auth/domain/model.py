@@ -43,3 +43,43 @@ class UserAction:
 
     def __hash__(self) -> int:
         return hash(self.uuid)
+
+
+class User:
+    """ User """
+
+    def __init__(
+        self,
+        *,
+        username: str,
+        email: str,
+        password: str,
+        otp_secret: str,  # TODO add default
+        otp: bool = False,
+        is_superuser: bool = False,
+        avatar: Optional[str] = None,
+        date_joined: datetime = datetime.utcnow(),
+    ) -> None:
+        self.username = username
+        self.email = email
+        self.password = password
+        self.avatar = avatar
+        self.date_joined = date_joined
+
+        self.otp = otp
+        self.otp_secret = otp_secret
+
+        self.is_superuser = is_superuser
+
+        self._actions: set[UserAction] = set()
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, User):
+            return False
+        return self.username == other.username
+
+    def __repr__(self) -> str:
+        return f'<User {self.username}>'
+
+    def __hash__(self) -> int:
+        return hash(self.username)
