@@ -83,3 +83,18 @@ class User:
 
     def __hash__(self) -> int:
         return hash(self.username)
+
+    def add_action(self, *, action: UserAction) -> None:
+        self._actions.add(action)
+
+    def remove_action(self, *, action: UserAction) -> None:
+        if action in self._actions:
+            self._actions.remove(action)
+
+    @property
+    def count_actions(self) -> int:
+        return len(self._actions)
+
+    @property
+    def actions(self) -> list[UserAction]:
+        return list(self._actions)

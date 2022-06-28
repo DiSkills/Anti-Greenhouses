@@ -1,3 +1,7 @@
+import uuid
+from datetime import datetime
+
+import config
 from src.auth.domain import model
 
 
@@ -31,3 +35,97 @@ def test_user_the_represent_method():
 
     assert user.__repr__() == f'<User {user.username}>'
     assert f'{user}' == f'<User {user.username}>'
+
+
+def test_user_can_add_action():
+    user = model.User(username='test', email='user@example.com', password='password', otp_secret='secret')
+    action = model.UserAction(
+        uuid=f'{uuid.uuid4()}',
+        type=config.UserActionType.registered,
+        created_at=datetime.utcnow(),
+        ip_address='0.0.0.0',
+    )
+
+    assert len(user._actions) == 0
+
+    user.add_action(action=action)
+    assert len(user._actions) == 1
+
+    user.add_action(action=action)
+    assert len(user._actions) == 1
+
+
+def test_user_can_remove_action():
+    user = model.User(username='test', email='user@example.com', password='password', otp_secret='secret')
+    action = model.UserAction(
+        uuid=f'{uuid.uuid4()}',
+        type=config.UserActionType.registered,
+        created_at=datetime.utcnow(),
+        ip_address='0.0.0.0',
+    )
+
+    assert len(user._actions) == 0
+
+    user.remove_action(action=action)
+    assert len(user._actions) == 0
+
+    # Add
+    user.add_action(action=action)
+
+    # Remove
+    assert len(user._actions) == 1
+
+    user.remove_action(action=action)
+    assert len(user._actions) == 0
+
+
+def test_user_can_get_count_actions():
+    user = model.User(username='test', email='user@example.com', password='password', otp_secret='secret')
+    action = model.UserAction(
+        uuid=f'{uuid.uuid4()}',
+        type=config.UserActionType.registered,
+        created_at=datetime.utcnow(),
+        ip_address='0.0.0.0',
+    )
+
+    assert user.count_actions == 0
+    user.add_action(action=action)
+    assert user.count_actions == 1
+
+    user.add_action(
+        action=model.UserAction(
+            uuid=f'{uuid.uuid4()}',
+            type=config.UserActionType.registered,
+            created_at=datetime.utcnow(),
+            ip_address='0.0.0.0',
+        ),
+    )
+    assert user.count_actions == 2
+
+    user.remove_action(action=action)
+    assert user.count_actions == 1
+
+
+def test_user_can_get_actions():
+    user = model.User(username='test', email='user@example.com', password='password', otp_secret='secret')
+    action = model.UserAction(
+        uuid=f'{uuid.uuid4()}',
+        type=config.UserActionType.registered,
+        created_at=datetime.utcnow(),
+        ip_address='0.0.0.0',
+    )
+    action2 = model.UserAction(
+        uuid=f'{uuid.uuid4()}',
+        type=config.UserActionType.registered,
+        created_at=datetime.utcnow(),
+        ip_address='0.0.0.0',
+    )
+
+    assert user.actions == []
+
+    user.add_action(action=action)
+    user.add_action(action=action2)
+    assert user.actions == [action, action2]
+
+    user.remove_action(action=action)
+    assert user.actions == [action2]
