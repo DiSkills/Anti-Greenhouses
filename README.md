@@ -56,6 +56,14 @@
     <img alt="Docker" src="https://img.shields.io/badge/-Docker-46a2f1?style=for-the-badge&logo=docker&logoColor=white"/>
 </a>
 
+<a href="https://docs.celeryq.dev/en/stable/index.html" target="_blank">
+    <img alt="Celery" src="https://img.shields.io/badge/-Celery-%2300C7B7?style=for-the-badge&logo=Celery"/>
+</a>
+
+<a href="https://www.rabbitmq.com/" target="_blank">
+    <img alt="RabbitMQ" src="https://img.shields.io/badge/rabbitmq-%23FF6600.svg?&style=for-the-badge&logo=rabbitmq&logoColor=white"/>
+</a>
+
 <a href="https://github.com/features/actions" target="_blank">
     <img alt="GitHub actions" src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"/>
 </a>
