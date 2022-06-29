@@ -98,3 +98,11 @@ class User:
     @property
     def actions(self) -> list[UserAction]:
         return list(self._actions)
+
+
+def add_action(*, action: UserAction, user: User) -> None:
+    user.add_action(action=action)
+
+
+def remove_action(*, action: UserAction, user: User) -> None:
+    user.remove_action(action=action)
