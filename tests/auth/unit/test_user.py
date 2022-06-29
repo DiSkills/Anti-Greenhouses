@@ -125,7 +125,7 @@ def test_user_can_get_actions():
 
     user.add_action(action=action)
     user.add_action(action=action2)
-    assert user.actions == [action, action2]
+    assert sorted(user.actions, key=lambda _action: _action.created_at) == [action, action2]
 
     user.remove_action(action=action)
     assert user.actions == [action2]
