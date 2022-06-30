@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from src.auth.adapters.repositories.user import UserRepository
+from src.auth.adapters.repositories.user.repository import UserRepository
 from src.auth.domain import model
 
 

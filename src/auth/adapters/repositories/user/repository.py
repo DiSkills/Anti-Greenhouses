@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 from src.auth.domain import model
 
 
+# TODO add filter, search, pagination...
+# TODO add to UoW
 class UserRepository:
     """ User repository """
 
