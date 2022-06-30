@@ -13,7 +13,11 @@ def _create_user(
 
 
 def test_repository_can_save_a_user(sqlite_session):
-    rows = tuple(sqlite_session.execute('SELECT username FROM "users"'))
+    rows = tuple(
+        sqlite_session.execute(
+            'SELECT username, email, password, otp_secret, otp, is_superuser, avatar, date_joined FROM "users"',
+        ),
+    )
     assert rows == ()
 
     user = model.User(username='test', email='user@example.com', password='hashed_password', otp_secret='otp_secret')
@@ -22,8 +26,14 @@ def test_repository_can_save_a_user(sqlite_session):
     repo.add(user=user)
     sqlite_session.commit()
 
-    rows = tuple(sqlite_session.execute('SELECT username FROM "users"'))
-    assert rows == (('test',),)
+    rows = tuple(
+        sqlite_session.execute(
+            'SELECT username, email, password, otp_secret, otp, is_superuser, avatar, date_joined FROM "users"',
+        ),
+    )
+    assert rows == (
+        ('test', 'user@example.com', 'hashed_password', 'otp_secret', False, False, None, f'{user.date_joined}'),
+    )
 
 
 def test_repository_can_retrieve_a_user(sqlite_session):
