@@ -15,7 +15,7 @@ class FakeSession:
 class FakeVerificationRepository:
     """ Fake verification repository """
 
-    def __init__(self, *, session: FakeSession, verifications: list[model.Verification]):
+    def __init__(self, *, session: FakeSession, verifications: list[model.Verification]) -> None:
         self._verifications = set(verifications)
         self.session = session
 
