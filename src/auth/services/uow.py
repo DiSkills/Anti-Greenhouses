@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 import config
-from src.auth.adapters.repositories.verification import VerificationRepository
+from src.auth.adapters.repositories.verification.repository import VerificationRepository
 
 
 class UnitOfWork:
