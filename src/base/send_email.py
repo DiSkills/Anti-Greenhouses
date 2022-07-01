@@ -15,7 +15,7 @@ class Email:
     """ Email """
 
     @staticmethod
-    def __send(*, message: MIMEMultipart) -> None:
+    def _send(*, message: MIMEMultipart) -> None:
         server = smtplib.SMTP(email_config.host, email_config.port)
         server.starttls()
 
@@ -73,7 +73,7 @@ class Email:
 
         cls._add_payload(message=message, text=text, html=html, files=files)
 
-        cls.__send(message=message)
+        cls._send(message=message)
 
 
 def send_email(
