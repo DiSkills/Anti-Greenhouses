@@ -94,9 +94,10 @@
 
 ## Quick start
 
-    You need docker, docker-compose and make.
+### Dependencies
+    Docker, Docker-Compose & Make
 
-    Change the config.example.***.env files in the directory "./configs/" to configs.***.env and add the values.
+    Create config.*.env files in "./configs/" directory same as in "./configs/examples/" directory
 
 ### Production
 
@@ -104,4 +105,4 @@
 
 ### Testing
 
-    make testing
+    make check
