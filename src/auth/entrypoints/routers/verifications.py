@@ -9,7 +9,6 @@ from src.base.schemas import Message
 verifications = APIRouter(prefix='/auth', tags=['auth'])
 
 
-# TODO add error when user with this email exists
 @verifications.post(
     '/registration/request',
     name='registration_request',
@@ -22,6 +21,8 @@ async def registration_request(schema: schemas.RegistrationRequest) -> dict[typi
 
     try:
         services.registration_request(email=schema.email)
+    except exceptions.UserWithEmailExists:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='User with this email exists.')
     except exceptions.VerificationExists:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

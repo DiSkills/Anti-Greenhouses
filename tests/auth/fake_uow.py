@@ -1,11 +1,13 @@
-from tests.auth.fake_repositories import FakeSession, FakeVerificationRepository
+from tests.auth.fake_repositories import FakeSession, FakeVerificationRepository, FakeUserRepository
 
 
 class FakeUnitOfWork:
     """ Fake Unit of Work """
 
     def __init__(self) -> None:
-        self.verifications = FakeVerificationRepository(session=FakeSession(), verifications=[])
+        session = FakeSession()
+        self.verifications = FakeVerificationRepository(session=session, verifications=[])
+        self.users = FakeUserRepository(session=session, users=[])
         self.committed = False
 
     def __enter__(self):
