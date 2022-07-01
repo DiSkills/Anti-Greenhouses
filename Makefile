@@ -7,7 +7,11 @@ mypy:
 pytest:
 	poetry run pytest --tb=short
 
-test: mypy pytest
+coverage:
+	poetry run coverage run -m pytest --tb=short
+	poetry run coverage report -m --omit="tests/*"
+
+test: mypy coverage
 
 install:
 	pip install --upgrade pip
