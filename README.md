@@ -95,6 +95,7 @@
 ## Quick start
 
 ### Dependencies
+
     Docker, Docker-Compose & Make
 
     Create config.*.env files in "./configs/" directory same as in "./configs/examples/" directory
