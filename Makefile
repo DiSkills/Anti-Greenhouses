@@ -7,7 +7,14 @@ mypy:
 pytest:
 	poetry run pytest --tb=short
 
-test: mypy pytest
+coverage:
+	poetry run coverage run -m pytest --tb=short
+	poetry run coverage report -m --omit="tests/*"
+
+clean:
+	rm -rf .mypy_cache/ .pytest_cache/ .coverage
+
+test: mypy coverage
 
 install:
 	pip install --upgrade pip
@@ -37,3 +44,5 @@ production: down build up
 testing: down build
 	docker-compose up -d
 	docker-compose run --rm --no-deps --entrypoint="make test" api
+
+check: testing clean down

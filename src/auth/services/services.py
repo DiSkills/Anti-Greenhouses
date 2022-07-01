@@ -8,10 +8,12 @@ from src.base.send_email import send_email
 from tests.auth.fake_uow import FakeUnitOfWork
 
 
-# TODO add error when user with this email exists
 def registration_request(*, email: str, uow: Union[UnitOfWork, FakeUnitOfWork] = UnitOfWork()) -> None:
 
     with uow:
+        if uow.users.get(email=email) is not None:
+            raise exceptions.UserWithEmailExists('User with this email exists.')
+
         verification = uow.verifications.get(email=email)
         if verification is not None:
 

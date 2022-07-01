@@ -15,7 +15,7 @@
 </a>
 
 <a href="https://github.com/Anti-Counter021/Anti-Greenhouses/blob/master/pyproject.toml" target="_blank">
-    <img src="https://img.shields.io/badge/API-v0.1.0-brightgreen" alt="API version"/>
+    <img src="https://img.shields.io/badge/API-v0.2.1-brightgreen" alt="API version"/>
 </a>
 
 <a href="https://github.com/Anti-Counter021/Anti-Greenhouses/blob/master/LICENSE" target="_blank">
@@ -94,9 +94,11 @@
 
 ## Quick start
 
-    You need docker, docker-compose and make.
+### Dependencies
 
-    Change the config.example.***.env files in the directory "./configs/" to configs.***.env and add the values.
+    Docker, Docker-Compose & Make
+
+    Create config.*.env files in "./configs/" directory same as in "./configs/examples/" directory
 
 ### Production
 
@@ -104,4 +106,4 @@
 
 ### Testing
 
-    make testing
+    make check

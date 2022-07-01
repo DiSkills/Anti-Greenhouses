@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 
 from fastapi import status
 
@@ -46,3 +47,40 @@ def test_registration_request_return_400_when_verification_with_this_email_exist
 
     rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
     assert rows == (('user@example.com', _uuid),)
+
+
+def test_registration_request_return_400_when_user_with_this_email_exists(mocker, e2e):
+    mocker.patch('src.base.send_email.send_email', return_value=None)
+    mocker.patch('worker.send_email_task', return_value=None)
+
+    email = 'user@example.com'
+    date_joined = datetime.utcnow()
+    e2e.session.execute(
+        'INSERT INTO users (username, email, password, otp_secret, otp, is_superuser, avatar, date_joined) VALUES '
+        '(:username, :email, :password, :otp_secret, FALSE, FALSE, NULL, :date_joined)',
+        {
+            'username': 'test',
+            'email': email,
+            'password': 'hashed_password',
+            'otp_secret': 'otp_secret',
+            'date_joined': date_joined,
+        },
+    )
+    e2e.session.commit()
+
+    rows = tuple(
+        e2e.session.execute(
+            'SELECT username, email, password, otp_secret, otp, is_superuser, avatar, date_joined FROM "users"',
+        ),
+    )
+    assert rows == (('test', email, 'hashed_password', 'otp_secret', False, False, None, date_joined),)
+
+    rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
+    assert rows == ()
+
+    response = e2e.client.post(url=f'{app.url_path_for("registration_request")}', json={'email': email})
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json() == {'detail': 'User with this email exists.'}
+
+    rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
+    assert rows == ()
