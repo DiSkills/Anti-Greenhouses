@@ -98,3 +98,66 @@ def test_remove_a_verification():
 
     repository.remove(uuid='hello-world!')
     assert repository._verifications == set()
+
+
+def test_add_a_user():
+    session = fake_repositories.FakeSession()
+    repository = fake_repositories.FakeUserRepository(session=session, users=[])
+    assert repository._users == set()
+
+    user = model.User(username='test', email='user@example.com', password='password', otp_secret='secret')
+    repository.add(user=user)
+    assert repository._users == {user}
+
+
+def test_add_users():
+    session = fake_repositories.FakeSession()
+    repository = fake_repositories.FakeUserRepository(session=session, users=[])
+    assert repository._users == set()
+
+    user1 = model.User(username='test', email='user@example.com', password='password', otp_secret='secret')
+    repository.add(user=user1)
+    assert repository._users == {user1}
+
+    user2 = model.User(username='test2', email='user2@example.com', password='password', otp_secret='secret')
+    repository.add(user=user2)
+    assert repository._users == {user1, user2}
+
+
+def test_get_user():
+    session = fake_repositories.FakeSession()
+    user1 = model.User(username='test', email='user@example.com', password='password', otp_secret='secret')
+    user2 = model.User(username='test2', email='user2@example.com', password='password', otp_secret='secret')
+    repository = fake_repositories.FakeUserRepository(session=session, users=[user1, user2])
+    assert repository._users == {user1, user2}
+
+    # By username
+    retrieved = repository.get(username='test')
+    assert retrieved == user1
+
+    retrieved = repository.get(username='bot')
+    assert retrieved is None
+
+    # By email
+    retrieved = repository.get(email='user2@example.com')
+    assert retrieved == user2
+
+    retrieved = repository.get(email='hello@world.com')
+    assert retrieved is None
+
+    # By username & email
+    retrieved = repository.get(username='test', email='user@example.com')
+    assert retrieved == user1
+
+    retrieved = repository.get(username='test', email='hello@example.com')
+    assert retrieved is None
+
+    retrieved = repository.get(username='bot', email='user@example.com')
+    assert retrieved is None
+
+    retrieved = repository.get(username='bot', email='bot@example.com')
+    assert retrieved is None
+
+    # By hello
+    retrieved = repository.get(hello='world!')
+    assert retrieved is None
