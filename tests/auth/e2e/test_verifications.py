@@ -73,7 +73,7 @@ def test_registration_request_return_400_when_user_with_this_email_exists(mocker
             'SELECT username, email, password, otp_secret, otp, is_superuser, avatar, date_joined FROM "users"',
         ),
     )
-    assert rows == (('test', email, 'hashed_password', 'otp_secret', False, False, None, date_joined))
+    assert rows == (('test', email, 'hashed_password', 'otp_secret', False, False, None, date_joined),)
 
     rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
     assert rows == ()
