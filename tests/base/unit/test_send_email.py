@@ -89,3 +89,17 @@ def test_add_html_and_many_files_to_payload():
         assert base64.b64decode(_json.get_payload()) == content
         assert _json.get_filename() == 'info.json'
         assert 'content-disposition' in _json
+
+
+def test_the_private_method_send(mocker):
+    mocker.patch('smtplib.SMTP.sendmail', return_value=None)
+
+    message = Email._create_message(subject='Hello world!', recipient='user@example.com')
+    Email._add_payload(message=message, text='Hello new user!', files=[])
+
+    assert Email._send(message=message) is None
+
+
+def test_send(mocker):
+    mocker.patch('smtplib.SMTP.sendmail', return_value=None)
+    assert Email.send(subject='Hello world!', recipient='user@example.com', text='Hello new user!') is None
