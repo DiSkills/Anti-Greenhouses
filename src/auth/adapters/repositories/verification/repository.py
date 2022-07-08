@@ -6,7 +6,6 @@ from src.auth.domain import model
 
 
 class VerificationRepository:
-    """ Verification repository """
 
     def __init__(self, *, session: Session) -> None:
         self.session = session

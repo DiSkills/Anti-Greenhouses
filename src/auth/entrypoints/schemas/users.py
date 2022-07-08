@@ -3,11 +3,11 @@ import string
 
 
 class Password(str):
-    """ Password """
 
     @classmethod
     def validate(cls, password: str) -> str:
         punctuation = re.escape(string.punctuation)
+        # TODO comment
         regular_expression = re.compile(
             r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[%s])[A-Za-z\d%s]{8,20}$' % (punctuation, punctuation),
         )
