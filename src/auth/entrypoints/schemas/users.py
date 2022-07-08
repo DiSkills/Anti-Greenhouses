@@ -7,7 +7,8 @@ class Password(str):
     @classmethod
     def validate(cls, password: str) -> str:
         punctuation = re.escape(string.punctuation)
-        # TODO comment
+
+        # True if the password contains at least 1 upper and lower case letter, number and punctuation
         regular_expression = re.compile(
             r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[%s])[A-Za-z\d%s]{8,20}$' % (punctuation, punctuation),
         )
