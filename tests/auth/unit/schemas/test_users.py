@@ -1,4 +1,5 @@
 import string
+import typing
 
 import pytest
 
@@ -88,4 +89,12 @@ def test_passwords_has_been_validated():
     assert Password.validate(password=password) == password
 
     for char in string.punctuation:
-        assert Password.validate(password=f'Admin2248{char}')
+        assert Password.validate(password=f'Admin2248{char}') == f'Admin2248{char}'
+
+
+def test_password_can_get_validators():
+    generator = Password.__get_validators__()
+    assert isinstance(generator, typing.Generator)
+
+    validators = list(generator)
+    assert validators == [Password.validate]

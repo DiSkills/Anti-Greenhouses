@@ -1,8 +1,13 @@
 import re
 import string
+from typing import Generator, Callable
 
 
 class Password(str):
+
+    @classmethod
+    def __get_validators__(cls) -> Generator[Callable[[str], str], None, None]:
+        yield cls.validate
 
     @classmethod
     def validate(cls, password: str) -> str:
