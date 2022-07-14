@@ -12,7 +12,6 @@ email_config = config.get_email_settings()
 
 
 class Email:
-    """ Email """
 
     @staticmethod
     def _send(*, message: MIMEMultipart) -> None:

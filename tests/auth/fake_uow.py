@@ -2,7 +2,6 @@ from tests.auth.fake_repositories import FakeSession, FakeVerificationRepository
 
 
 class FakeUnitOfWork:
-    """ Fake Unit of Work """
 
     def __init__(self) -> None:
         session = FakeSession()

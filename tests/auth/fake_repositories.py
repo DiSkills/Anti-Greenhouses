@@ -4,7 +4,6 @@ from src.auth.domain import model
 
 
 class FakeSession:
-    """ Fake session """
 
     committed = False
 
@@ -13,7 +12,6 @@ class FakeSession:
 
 
 class FakeVerificationRepository:
-    """ Fake verification repository """
 
     def __init__(self, *, session: FakeSession, verifications: list[model.Verification]) -> None:
         self._verifications = set(verifications)
@@ -51,7 +49,6 @@ class FakeVerificationRepository:
 
 
 class FakeUserRepository:
-    """ Fake user repository """
 
     def __init__(self, *, session: FakeSession, users: list[model.User]) -> None:
         self._users = set(users)

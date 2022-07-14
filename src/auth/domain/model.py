@@ -7,10 +7,9 @@ import config
 
 @dataclass
 class Verification:
-    """ Verification """
 
-    email: str
     uuid: str
+    email: str
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Verification):
@@ -26,7 +25,6 @@ class Verification:
 
 @dataclass
 class UserAction:
-    """ User action """
 
     uuid: str
     type: config.UserActionType
@@ -46,7 +44,6 @@ class UserAction:
 
 
 class User:
-    """ User """
 
     def __init__(
         self,

@@ -7,7 +7,6 @@ from src.auth.domain import model
 
 # TODO add filter, search, pagination...
 class UserRepository:
-    """ User repository """
 
     def __init__(self, *, session: Session) -> None:
         self.session = session
