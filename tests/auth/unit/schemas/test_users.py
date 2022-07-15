@@ -112,7 +112,7 @@ def test_confirm_password_equals_password():
 
 
 def test_confirm_password_not_equals_password():
-    with pytest.raises(ValueError, match='Invalid confirm password.'):
+    with pytest.raises(ValueError, match='Passwords do not match.'):
         Registration(
             username='test',
             uuid='uuid',
