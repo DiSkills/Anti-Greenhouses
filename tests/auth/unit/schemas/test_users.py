@@ -120,3 +120,25 @@ def test_confirm_password_not_equals_password():
             password=Password('Admin2248!'),
             confirm_password='Admin',
         )
+
+
+def test_username_consists_only_of_the_english_alphabet():
+    with pytest.raises(ValueError, match='Invalid username.'):
+        Registration(
+            username='ююююю',
+            uuid='uuid',
+            email=EmailStr('user@example.com'),
+            password=Password('Admin2248!'),
+            confirm_password='Admin2248!',
+        )
+
+
+def test_username_less_than_3_characters():
+    with pytest.raises(ValueError, match='Invalid username.'):
+        Registration(
+            username='te',
+            uuid='uuid',
+            email=EmailStr('user@example.com'),
+            password=Password('Admin2248!'),
+            confirm_password='Admin2248!',
+        )

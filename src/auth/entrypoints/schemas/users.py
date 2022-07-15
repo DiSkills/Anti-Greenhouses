@@ -27,11 +27,17 @@ class Password(str):
 
 class Registration(BaseModel):
 
-    username: str  # TODO add validator only [a-z]
+    username: str
     uuid: str
     email: EmailStr
     password: Password
     confirm_password: str
+
+    @validator('username')
+    def validate_username(cls, username: str) -> str:
+        if not re.fullmatch(r'[A-Za-z]{3,}', username):
+            raise ValueError('Invalid username.')
+        return username
 
     @validator('confirm_password')
     def validate_confirm_password(
