@@ -1,6 +1,8 @@
 import re
 import string
-from typing import Generator, Callable
+from typing import Generator, Callable, Literal
+
+from pydantic import BaseModel, EmailStr, validator
 
 
 class Password(str):
@@ -21,3 +23,27 @@ class Password(str):
         if not regular_expression.fullmatch(password):
             raise ValueError('Invalid password.')
         return password
+
+
+class Registration(BaseModel):
+
+    username: str
+    uuid: str
+    email: EmailStr
+    password: Password
+    confirm_password: str
+
+    @validator('username')
+    def validate_username(cls, username: str) -> str:
+        # True if it contains at least 3 letters of the English alphabet
+        if not re.fullmatch(r'[A-Za-z]{3,}', username):
+            raise ValueError('Invalid username.')
+        return username
+
+    @validator('confirm_password')
+    def validate_confirm_password(
+        cls, confirm_password: str, values: dict[Literal['username', 'uuid', 'email', 'password'], str],
+    ) -> str:
+        if confirm_password != values.get('password'):
+            raise ValueError('Passwords do not match.')
+        return confirm_password

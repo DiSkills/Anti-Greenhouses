@@ -2,8 +2,9 @@ import string
 import typing
 
 import pytest
+from pydantic import EmailStr
 
-from src.auth.entrypoints.schemas.users import Password
+from src.auth.entrypoints.schemas.users import Password, Registration
 
 
 def test_password_characters_less_than_8():
@@ -98,3 +99,46 @@ def test_password_can_get_validators():
 
     validators = list(generator)
     assert validators == [Password.validate]
+
+
+def test_confirm_password_equals_password():
+    Registration(
+        username='test',
+        uuid='uuid',
+        email=EmailStr('user@example.com'),
+        password=Password('Admin2248!'),
+        confirm_password='Admin2248!',
+    )
+
+
+def test_confirm_password_not_equals_password():
+    with pytest.raises(ValueError, match='Passwords do not match.'):
+        Registration(
+            username='test',
+            uuid='uuid',
+            email=EmailStr('user@example.com'),
+            password=Password('Admin2248!'),
+            confirm_password='Admin',
+        )
+
+
+def test_username_consists_only_of_the_english_alphabet():
+    with pytest.raises(ValueError, match='Invalid username.'):
+        Registration(
+            username='ююююю',
+            uuid='uuid',
+            email=EmailStr('user@example.com'),
+            password=Password('Admin2248!'),
+            confirm_password='Admin2248!',
+        )
+
+
+def test_username_less_than_3_characters():
+    with pytest.raises(ValueError, match='Invalid username.'):
+        Registration(
+            username='te',
+            uuid='uuid',
+            email=EmailStr('user@example.com'),
+            password=Password('Admin2248!'),
+            confirm_password='Admin2248!',
+        )
