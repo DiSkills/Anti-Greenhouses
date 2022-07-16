@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 import sqlalchemy
+from passlib.context import CryptContext
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -94,6 +95,10 @@ def get_email_settings() -> EmailConfig:
     logger.debug(f'[DEBUG] Email: {sender_email}, Password: {sender_password}, Server: {host}:{port}')
 
     return EmailConfig(host=host, port=port, sender_email=sender_email, sender_password=sender_password)
+
+
+def get_pwd_context() -> CryptContext:
+    return CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 
 def start_mappers() -> None:
