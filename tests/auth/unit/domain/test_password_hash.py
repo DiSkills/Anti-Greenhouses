@@ -19,3 +19,5 @@ def test_check_password_hash():
 
     hashed_password = get_password_hash(password=password)
     assert check_password_hash(password=password, hashed_password=hashed_password) is True
+
+    assert check_password_hash(password='password', hashed_password=hashed_password) is False
