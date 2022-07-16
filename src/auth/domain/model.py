@@ -4,6 +4,8 @@ from typing import Optional
 
 import config
 
+pwd_context = config.get_pwd_context()
+
 
 @dataclass
 class Verification:
@@ -103,3 +105,7 @@ def add_action(*, action: UserAction, user: User) -> None:
 
 def remove_action(*, action: UserAction, user: User) -> None:
     user.remove_action(action=action)
+
+
+def get_password_hash(*, password: str) -> str:
+    return pwd_context.hash(password)
