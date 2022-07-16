@@ -4,3 +4,15 @@ class VerificationExists(Exception):
 
 class UserWithEmailExists(Exception):
     pass
+
+
+class UserWithUsernameExists(Exception):
+    pass
+
+
+class VerificationNotFound(Exception):
+    pass
+
+
+class BadVerificationUUID(Exception):
+    pass
