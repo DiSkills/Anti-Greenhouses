@@ -53,7 +53,7 @@ class User:
         username: str,
         email: str,
         password: str,
-        otp_secret: str,  # TODO add default
+        otp_secret: str = '',  # TODO add default
         otp: bool = False,
         is_superuser: bool = False,
         avatar: Optional[str] = None,

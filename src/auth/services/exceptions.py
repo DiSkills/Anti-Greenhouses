@@ -12,3 +12,7 @@ class UserWithUsernameExists(Exception):
 
 class VerificationNotFound(Exception):
     pass
+
+
+class BadVerificationUUID(Exception):
+    pass
