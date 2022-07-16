@@ -10,7 +10,7 @@ verifications = APIRouter(prefix='/auth', tags=['auth'])
 
 
 @verifications.post(
-    '/registration/request',
+    r'/registration/request',
     name='registration_request',
     description='Send verification mail for registration',
     status_code=status.HTTP_201_CREATED,
