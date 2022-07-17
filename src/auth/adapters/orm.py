@@ -46,7 +46,7 @@ user_actions = Table(
 )
 
 
-def start_mappers() -> None:
+def auth_start_mappers() -> None:
     """
         Mapping a domain area to a database
         :return: None

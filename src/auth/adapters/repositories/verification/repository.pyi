@@ -1,4 +1,4 @@
-import typing
+from typing import Optional, overload
 
 from sqlalchemy.orm import Session
 
@@ -13,20 +13,20 @@ class VerificationRepository:
 
     def add(self, *, verification: model.Verification) -> None: ...
 
-    @typing.overload
-    def get(self, *, email: str, uuid: str) -> typing.Optional[model.Verification]: ...
+    @overload
+    def get(self, *, email: str, uuid: str) -> Optional[model.Verification]: ...
 
-    @typing.overload
-    def get(self, *, uuid: str) -> typing.Optional[model.Verification]: ...
+    @overload
+    def get(self, *, uuid: str) -> Optional[model.Verification]: ...
 
-    @typing.overload
-    def get(self, *, email: str) -> typing.Optional[model.Verification]: ...
+    @overload
+    def get(self, *, email: str) -> Optional[model.Verification]: ...
 
-    @typing.overload
+    @overload
     def remove(self, *, email: str, uuid: str) -> None: ...
 
-    @typing.overload
+    @overload
     def remove(self, *, uuid: str) -> None: ...
 
-    @typing.overload
+    @overload
     def remove(self, *, email: str) -> None: ...
