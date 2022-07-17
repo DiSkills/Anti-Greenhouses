@@ -1,4 +1,4 @@
-import uuid
+from uuid import uuid4
 
 from src.auth.domain import model
 from tests.auth import fake_repositories
@@ -9,7 +9,7 @@ def test_add_a_verification():
     repository = fake_repositories.FakeVerificationRepository(session=session, verifications=[])
     assert repository._verifications == set()
 
-    verification = model.Verification(email='user@example.com', uuid=f'{uuid.uuid4()}')
+    verification = model.Verification(email='user@example.com', uuid=f'{uuid4()}')
     repository.add(verification=verification)
     assert repository._verifications == {verification}
 
@@ -19,18 +19,18 @@ def test_add_verifications():
     repository = fake_repositories.FakeVerificationRepository(session=session, verifications=[])
     assert repository._verifications == set()
 
-    verification1 = model.Verification(email='user@example.com', uuid=f'{uuid.uuid4()}')
+    verification1 = model.Verification(email='user@example.com', uuid=f'{uuid4()}')
     repository.add(verification=verification1)
     assert repository._verifications == {verification1}
 
-    verification2 = model.Verification(email='user-2@example.com', uuid=f'{uuid.uuid4()}')
+    verification2 = model.Verification(email='user-2@example.com', uuid=f'{uuid4()}')
     repository.add(verification=verification2)
     assert repository._verifications == {verification1, verification2}
 
 
 def test_get_verification():
-    uuid1 = f'{uuid.uuid4()}'
-    uuid2 = f'{uuid.uuid4()}'
+    uuid1 = f'{uuid4()}'
+    uuid2 = f'{uuid4()}'
 
     session = fake_repositories.FakeSession()
     verification1 = model.Verification(email='user@example.com', uuid=f'{uuid1}')
@@ -73,8 +73,8 @@ def test_get_verification():
 
 
 def test_remove_a_verification():
-    uuid1 = f'{uuid.uuid4()}'
-    uuid2 = f'{uuid.uuid4()}'
+    uuid1 = f'{uuid4()}'
+    uuid2 = f'{uuid4()}'
 
     session = fake_repositories.FakeSession()
     verification1 = model.Verification(email='user@example.com', uuid=f'{uuid1}')
