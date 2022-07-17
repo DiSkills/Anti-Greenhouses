@@ -6,7 +6,6 @@ from src.auth.domain import model
 
 
 class UserRepository:
-
     session: Session
 
     def __init__(self, *, session: Session) -> None: ...
