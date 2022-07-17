@@ -42,6 +42,18 @@ def e2e() -> Generator[E2E, None, None]:
             yield E2E(client=client, session=session)
 
 
+class Username:
+    user = 'user'
+    test = 'test'
+
+
+class Email:
+    user = 'user@example.com'
+    user2 = 'user2@example.com'
+    python = 'python@example.com'
+    bot = 'bot@example.com'
+
+
 class TestData:
-    email1 = 'user@example.com'
-    email2 = 'user2@example.com'
+    email = Email()
+    username = Username()
