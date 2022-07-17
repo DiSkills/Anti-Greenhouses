@@ -3,7 +3,7 @@ import uuid
 import pytest
 
 from src.auth.domain import model
-from src.auth.services.uow import UnitOfWork
+from src.base.uow import UnitOfWork
 
 
 def test_uow_can_save_a_verification(in_memory_db):

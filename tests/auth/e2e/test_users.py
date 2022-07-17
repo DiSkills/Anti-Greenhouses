@@ -40,10 +40,7 @@ def _create_user(*, e2e, username: str = 'test', email: str = 'user@example.com'
 
 # TODO tests for schema
 
-def test_registration_return_201_and_create_user(e2e, mocker):
-    mocker.patch('worker.send_email_task', return_value=None)
-    mocker.patch('src.base.send_email.send_email', return_value=None)
-
+def test_registration_return_201_and_create_user(e2e):
     # Create verification
     _uuid = f'{uuid.uuid4()}'
     email = 'user@example.com'

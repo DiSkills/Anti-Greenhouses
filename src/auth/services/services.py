@@ -1,17 +1,17 @@
-import uuid
 from datetime import datetime
-from typing import Union, Optional
+from typing import Optional
+from uuid import uuid4
 
 import config
 from src.auth.domain import model
 from src.auth.entrypoints.schemas.users import Registration
 from src.auth.services import exceptions
-from src.auth.services.uow import UnitOfWork
+from src.base.aliases import TypeUoW
+from src.base.uow import UnitOfWork
 from src.base.send_email import send_email
-from tests.auth.fake_uow import FakeUnitOfWork
 
 
-def registration_request(*, email: str, uow: Union[UnitOfWork, FakeUnitOfWork] = UnitOfWork()) -> None:
+def registration_request(*, email: str, uow: TypeUoW = UnitOfWork()) -> None:
 
     with uow:
         if uow.users.get(email=email) is not None:
@@ -30,7 +30,7 @@ def registration_request(*, email: str, uow: Union[UnitOfWork, FakeUnitOfWork] =
                 'Verification with this email already exists, we sent you another email with a code.',
             )
 
-        verification = model.Verification(email=email, uuid=f'{uuid.uuid4()}')
+        verification = model.Verification(email=email, uuid=f'{uuid4()}')
         uow.verifications.add(verification=verification)
         uow.commit()
 
@@ -42,7 +42,7 @@ def registration_request(*, email: str, uow: Union[UnitOfWork, FakeUnitOfWork] =
 
 
 def registration(
-    *, schema: Registration, ip_address: Optional[str] = None, uow: Union[UnitOfWork, FakeUnitOfWork] = UnitOfWork(),
+    *, schema: Registration, ip_address: Optional[str] = None, uow: TypeUoW = UnitOfWork(),
 ) -> None:
 
     with uow:
@@ -77,7 +77,7 @@ def registration(
         uow.users.add(user=user)
 
         action = model.UserAction(
-            uuid=f'{uuid.uuid4()}',
+            uuid=f'{uuid4()}',
             type=config.UserActionType.registered,
             created_at=datetime.utcnow(),
             ip_address=ip_address,

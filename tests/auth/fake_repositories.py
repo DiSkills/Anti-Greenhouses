@@ -1,14 +1,7 @@
 import typing
 
 from src.auth.domain import model
-
-
-class FakeSession:
-
-    committed = False
-
-    def commit(self) -> None:
-        self.committed = True
+from tests.base.fake_session import FakeSession
 
 
 class FakeVerificationRepository:

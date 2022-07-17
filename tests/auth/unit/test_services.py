@@ -7,7 +7,7 @@ import config
 from src.auth.domain import model
 from src.auth.entrypoints.schemas.users import Registration, Password
 from src.auth.services import services, exceptions
-from tests.auth.fake_uow import FakeUnitOfWork
+from tests.base.fake_uow import FakeUnitOfWork
 
 
 def _create_registration_schema(username: str, uuid: str, email: str, password: str) -> Registration:
