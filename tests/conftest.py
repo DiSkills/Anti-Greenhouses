@@ -65,3 +65,4 @@ class TestData:
     email = Email()
     username = Username()
     password = Password()
+    ip_address = '0.0.0.0'
