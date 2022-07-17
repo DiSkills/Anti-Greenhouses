@@ -1,9 +1,10 @@
 import config
 from src.auth.domain.model import get_password_hash, check_password_hash
+from tests.conftest import TestData
 
 
 def test_get_password_hash():
-    password = 'Admin2248!'
+    password = TestData.password.strong
     hashed_password = get_password_hash(password=password)
 
     assert (password == hashed_password) is False
@@ -12,7 +13,7 @@ def test_get_password_hash():
 
 
 def test_check_password_hash():
-    password = 'Admin2248!'
+    password = TestData.password.strong
     hashed_password = config.get_pwd_context().hash(password)
 
     assert check_password_hash(password=password, hashed_password=hashed_password) is True
@@ -20,4 +21,4 @@ def test_check_password_hash():
     hashed_password = get_password_hash(password=password)
     assert check_password_hash(password=password, hashed_password=hashed_password) is True
 
-    assert check_password_hash(password='password', hashed_password=hashed_password) is False
+    assert check_password_hash(password=TestData.password.password, hashed_password=hashed_password) is False
