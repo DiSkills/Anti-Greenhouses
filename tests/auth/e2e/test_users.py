@@ -44,6 +44,7 @@ def test_registration_return_201_and_create_user(e2e, mocker):
     mocker.patch('worker.send_email_task', return_value=None)
     mocker.patch('src.base.send_email.send_email', return_value=None)
 
+    # Create verification
     _uuid = f'{uuid.uuid4()}'
     email = 'user@example.com'
     e2e.session.execute(
@@ -51,6 +52,7 @@ def test_registration_return_201_and_create_user(e2e, mocker):
     )
     e2e.session.commit()
 
+    # Database check
     rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
     assert rows == (('user@example.com', _uuid),)
     rows = tuple(e2e.session.execute('SELECT * FROM "users"'))
@@ -60,10 +62,12 @@ def test_registration_return_201_and_create_user(e2e, mocker):
     rows = tuple(e2e.session.execute('SELECT * FROM "actions"'))
     assert rows == ()
 
+    # Send request
     response = e2e.client.post(f'{app.url_path_for("registration")}', json=_get_registration_data(uuid=_uuid))
     assert response.status_code == status.HTTP_201_CREATED
     assert response.json() == {'msg': 'You have been successfully registered on our website!'}
 
+    # Database check
     rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
     assert rows == ()
     rows = tuple(e2e.session.execute('SELECT username FROM "users"'))
@@ -72,6 +76,7 @@ def test_registration_return_201_and_create_user(e2e, mocker):
     password, = tuple(e2e.session.execute('SELECT password FROM "users"'))[0]
     assert model.check_password_hash(password='Admin2248!', hashed_password=password) is True
 
+    # Check actions
     rows = tuple(e2e.session.execute('SELECT id, user_id, action_id FROM "user_actions"'))
     assert rows == ((1, 1, 1),)
     rows = tuple(e2e.session.execute('SELECT type, ip_address FROM "actions"'))
@@ -108,6 +113,7 @@ def test_registration_return_400_when_invalid_verification_uuid(mocker, e2e):
     mocker.patch('worker.send_email_task', return_value=None)
     mocker.patch('src.base.send_email.send_email', return_value=None)
 
+    # Create verification
     _uuid = f'{uuid.uuid4()}'
     email = 'user@example.com'
     e2e.session.execute(
@@ -115,17 +121,20 @@ def test_registration_return_400_when_invalid_verification_uuid(mocker, e2e):
     )
     e2e.session.commit()
 
+    # Database check
     rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
     assert rows == (('user@example.com', _uuid),)
     rows = tuple(e2e.session.execute('SELECT * FROM "users"'))
     assert rows == ()
 
+    # Send request
     response = e2e.client.post(f'{app.url_path_for("registration")}', json=_get_registration_data(uuid='bad-uuid'))
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {
         'detail': 'Verification with this uuid was not found. We sent you another email with a code.',
     }
 
+    # Database check
     rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
     assert rows == (('user@example.com', _uuid),)
     rows = tuple(e2e.session.execute('SELECT * FROM "users"'))

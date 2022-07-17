@@ -78,12 +78,9 @@ def test_registration_create_user():
     assert len(uow.users._users) == 1
 
     user = uow.users.get(username='test')
-
     assert user is not None
-
     assert user.password != 'Admin2248!'
     assert model.check_password_hash(password='Admin2248!', hashed_password=user.password) is True
-
     assert user.count_actions == 1
     assert user.actions[0].type == config.UserActionType.registered
 
