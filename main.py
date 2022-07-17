@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from sqlalchemy.orm import clear_mappers
 
 import config
+from src.auth.entrypoints.routers.users import users
 from src.auth.entrypoints.routers.verifications import verifications
 
 app_config = config.get_app_settings()
@@ -32,3 +33,4 @@ async def shutdown() -> None:
 
 
 app.include_router(verifications, prefix=config.get_api_url())
+app.include_router(users, prefix=config.get_api_url())
