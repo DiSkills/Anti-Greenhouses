@@ -54,7 +54,9 @@ def test_registration_request_user_with_this_email_exists(mocker):
 
     uow = FakeUnitOfWork()
     assert uow.committed is False
-    uow.users.add(user=model.User(username='test', email=TestData.email.user, password=TestData.password.password))
+    uow.users.add(
+        user=model.User(username=TestData.username.test, email=TestData.email.user, password=TestData.password.password)
+    )
 
     error_text = 'User with this email exists.'
     with pytest.raises(exceptions.UserWithEmailExists, match=error_text):
