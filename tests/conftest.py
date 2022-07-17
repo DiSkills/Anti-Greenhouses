@@ -42,9 +42,15 @@ def e2e() -> Generator[E2E, None, None]:
             yield E2E(client=client, session=session)
 
 
+class Password:
+    password = 'password'
+    strong = 'Admin2248!'
+
+
 class Username:
     user = 'user'
     test = 'test'
+    bot = 'bot'
 
 
 class Email:
@@ -52,8 +58,10 @@ class Email:
     user2 = 'user2@example.com'
     python = 'python@example.com'
     bot = 'bot@example.com'
+    hello = 'hello@example.com'
 
 
 class TestData:
     email = Email()
     username = Username()
+    password = Password()
