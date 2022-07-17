@@ -1,4 +1,4 @@
-import uuid
+from uuid import uuid4
 
 import pytest
 
@@ -7,7 +7,7 @@ from src.base.uow import UnitOfWork
 
 
 def test_uow_can_save_a_verification(in_memory_db):
-    _uuid = f'{uuid.uuid4()}'
+    _uuid = f'{uuid4()}'
 
     uow = UnitOfWork(session_factory=in_memory_db)
     with uow:
@@ -21,7 +21,7 @@ def test_uow_can_save_a_verification(in_memory_db):
 
 
 def test_rolls_back_uncommitted_work_by_default(in_memory_db):
-    _uuid = f'{uuid.uuid4()}'
+    _uuid = f'{uuid4()}'
 
     uow = UnitOfWork(session_factory=in_memory_db)
     with uow:
@@ -34,7 +34,7 @@ def test_rolls_back_uncommitted_work_by_default(in_memory_db):
 
 
 def test_rolls_back_on_error(in_memory_db):
-    _uuid = f'{uuid.uuid4()}'
+    _uuid = f'{uuid4()}'
 
     uow = UnitOfWork(session_factory=in_memory_db)
     with pytest.raises(Exception):

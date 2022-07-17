@@ -1,5 +1,5 @@
-import typing
 from dataclasses import dataclass
+from typing import Generator
 
 import pytest
 from fastapi.testclient import TestClient
@@ -24,7 +24,7 @@ def in_memory_db():
 
 
 @pytest.fixture()
-def sqlite_session(in_memory_db) -> typing.Generator[Session, None, None]:
+def sqlite_session(in_memory_db) -> Generator[Session, None, None]:
     with in_memory_db() as session:
         yield session
 
@@ -36,7 +36,7 @@ class E2E:
 
 
 @pytest.fixture()
-def e2e() -> typing.Generator[E2E, None, None]:
+def e2e() -> Generator[E2E, None, None]:
     with TestClient(app=main.app) as client:
         with get_session() as session:
             yield E2E(client=client, session=session)
