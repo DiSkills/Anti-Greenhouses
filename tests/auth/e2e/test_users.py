@@ -70,7 +70,7 @@ def test_registration_return_201_and_create_user(e2e, mocker):
     assert rows == (('test',),)
 
     password, = tuple(e2e.session.execute('SELECT password FROM "users"'))[0]
-    assert model.check_password_hash(password='Admin2248!', hashed_password=password)
+    assert model.check_password_hash(password='Admin2248!', hashed_password=password) is True
 
     rows = tuple(e2e.session.execute('SELECT id, user_id, action_id FROM "user_actions"'))
     assert rows == ((1, 1, 1),)
