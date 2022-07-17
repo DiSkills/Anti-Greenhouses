@@ -40,3 +40,8 @@ def e2e() -> Generator[E2E, None, None]:
     with TestClient(app=main.app) as client:
         with get_session() as session:
             yield E2E(client=client, session=session)
+
+
+class TestData:
+    email1 = 'user@example.com'
+    email2 = 'user2@example.com'

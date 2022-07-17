@@ -7,18 +7,19 @@ from email.mime.text import MIMEText
 import config
 from src.base.schemas import File
 from src.base.send_email import Email
+from tests.conftest import TestData
 
 
 def test_create_message():
-    message = Email._create_message(subject='Hello world!', recipient='user@example.com')
+    message = Email._create_message(subject='Hello world!', recipient=TestData.email1)
     assert isinstance(message, MIMEMultipart)
     assert message['Subject'] == 'Hello world!'
-    assert message['To'] == 'user@example.com'
+    assert message['To'] == TestData.email1
     assert message['From'] == config.get_email_settings().sender_email
 
 
 def test_add_only_text_to_payload():
-    message = Email._create_message(subject='Hello world!', recipient='user@example.com')
+    message = Email._create_message(subject='Hello world!', recipient=TestData.email1)
 
     Email._add_payload(message=message, text='Hello new user!', files=[])
     payload = message.get_payload()
@@ -31,7 +32,7 @@ def test_add_only_text_to_payload():
 
 
 def test_add_only_html_to_payload():
-    message = Email._create_message(subject='Hello world!', recipient='user@example.com')
+    message = Email._create_message(subject='Hello world!', recipient=TestData.email1)
 
     Email._add_payload(message=message, text='Hello new user!', files=[], html='<strong>Hello new user!</strong>')
     payload = message.get_payload()
@@ -44,7 +45,7 @@ def test_add_only_html_to_payload():
 
 
 def test_add_text_and_file_to_payload():
-    message = Email._create_message(subject='Hello world!', recipient='user@example.com')
+    message = Email._create_message(subject='Hello world!', recipient=TestData.email1)
 
     content = json.dumps({'Hello': 'world!'}).encode()
     file = File(filename='info.json', type='application', subtype='json', content=content)
@@ -67,7 +68,7 @@ def test_add_text_and_file_to_payload():
 
 
 def test_add_html_and_many_files_to_payload():
-    message = Email._create_message(subject='Hello world!', recipient='user@example.com')
+    message = Email._create_message(subject='Hello world!', recipient=TestData.email1)
 
     content = json.dumps({'Hello': 'world!'}).encode()
 
@@ -94,7 +95,7 @@ def test_add_html_and_many_files_to_payload():
 def test_the_private_method_send(mocker):
     mocker.patch('smtplib.SMTP.sendmail', return_value=None)
 
-    message = Email._create_message(subject='Hello world!', recipient='user@example.com')
+    message = Email._create_message(subject='Hello world!', recipient=TestData.email1)
     Email._add_payload(message=message, text='Hello new user!', files=[])
 
     assert Email._send(message=message) is None
@@ -102,4 +103,4 @@ def test_the_private_method_send(mocker):
 
 def test_send(mocker):
     mocker.patch('smtplib.SMTP.sendmail', return_value=None)
-    assert Email.send(subject='Hello world!', recipient='user@example.com', text='Hello new user!') is None
+    assert Email.send(subject='Hello world!', recipient=TestData.email1, text='Hello new user!') is None
