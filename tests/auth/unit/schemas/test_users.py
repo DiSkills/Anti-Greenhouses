@@ -115,7 +115,7 @@ def test_confirm_password_equals_password():
 def test_confirm_password_not_equals_password():
     with pytest.raises(ValueError, match='Passwords do not match.'):
         Registration(
-            username='test',
+            username=TestData.username.test,
             uuid='uuid',
             email=EmailStr(TestData.email.user),
             password=Password(TestData.password.strong),
