@@ -2,12 +2,11 @@ from sqlalchemy.orm import Session
 
 from src.auth.adapters.repositories.user.repository import UserRepository
 from src.auth.domain import model
+from tests.conftest import TestData
 
 
-def _create_user(
-    session: Session, username: str, email: str, password: str = 'hashed_password', otp_secret: str = 'otp_secret',
-) -> None:
-    user = model.User(username=username, email=email, password=password, otp_secret=otp_secret)
+def _create_user(session: Session, username: str, email: str, password: str = 'hashed_password') -> None:
+    user = model.User(username=username, email=email, password=password)
     session.add(user)
     session.commit()
 
@@ -20,7 +19,7 @@ def test_repository_can_save_a_user(sqlite_session):
     )
     assert rows == ()
 
-    user = model.User(username='test', email='user@example.com', password='hashed_password', otp_secret='otp_secret')
+    user = model.User(username=TestData.username.test, email=TestData.email.user, password='hashed_password')
 
     repo = UserRepository(session=sqlite_session)
     repo.add(user=user)
@@ -32,36 +31,44 @@ def test_repository_can_save_a_user(sqlite_session):
         ),
     )
     assert rows == (
-        ('test', 'user@example.com', 'hashed_password', 'otp_secret', False, False, None, f'{user.date_joined}'),
+        (
+            TestData.username.test,
+            TestData.email.user,
+            'hashed_password',
+            '',
+            False,
+            False,
+            None,
+            f'{user.date_joined}',
+        ),
     )
 
 
 def test_repository_can_retrieve_a_user(sqlite_session):
-    _create_user(session=sqlite_session, username='test', email='user@example.com')
-    _create_user(session=sqlite_session, username='test2', email='user2@example.com')
+    _create_user(session=sqlite_session, username=TestData.username.test, email=TestData.email.user)
+    _create_user(session=sqlite_session, username=TestData.username.user, email=TestData.email.user2)
 
     expected = model.User(
-        username='test',
-        email='user@example.com',
+        username=TestData.username.test,
+        email=TestData.email.user,
         password='hashed_password',
-        otp_secret='otp_secret',
     )
     repo = UserRepository(session=sqlite_session)
 
     # Get by username
-    retrieved = repo.get(username='test')
+    retrieved = repo.get(username=TestData.username.test)
     assert retrieved == expected
 
     # Get by email
-    retrieved = repo.get(email='user@example.com')
+    retrieved = repo.get(email=TestData.email.user)
     assert retrieved == expected
 
 
 def test_repository_can_not_retrieve_a_user(sqlite_session):
-    _create_user(session=sqlite_session, username='test', email='user@example.com')
-    _create_user(session=sqlite_session, username='test2', email='user2@example.com')
+    _create_user(session=sqlite_session, username=TestData.username.test, email=TestData.email.user)
+    _create_user(session=sqlite_session, username=TestData.username.user, email=TestData.email.user2)
 
     repo = UserRepository(session=sqlite_session)
 
-    retrieved = repo.get(email='bot@example.com')
+    retrieved = repo.get(email=TestData.email.bot)
     assert retrieved is None
