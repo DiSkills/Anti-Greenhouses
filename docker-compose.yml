@@ -7,7 +7,7 @@ services:
     env_file:
       - configs/config.docker.db.env
     ports:
-      - "5431:5431"
+      - "5432:5432"
     networks:
       - backend
 
