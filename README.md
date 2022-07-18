@@ -68,6 +68,10 @@
     <img alt="GitHub actions" src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"/>
 </a>
 
+<a href="https://www.nginx.com/" target="_blank">
+    <img alt="Nginx" src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/>
+</a>
+
 ### Tools
 
 <a href="https://www.jetbrains.com/pycharm/" target="_blank">
