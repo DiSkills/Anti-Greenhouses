@@ -1,23 +1,22 @@
-import typing
-
 from fastapi import APIRouter, status, HTTPException
 
 from src.auth.entrypoints.schemas import verifications as schemas
 from src.auth.services import exceptions, services
+from src.base.aliases import Msg
 from src.base.schemas import Message
 
 verifications = APIRouter(prefix='/auth', tags=['auth'])
 
 
 @verifications.post(
-    '/registration/request',
+    r'/registration/request',
     name='registration_request',
     description='Send verification mail for registration',
     status_code=status.HTTP_201_CREATED,
     response_description='Message',
     response_model=Message,
 )
-async def registration_request(schema: schemas.RegistrationRequest) -> dict[typing.Literal['msg'], str]:
+async def registration_request(schema: schemas.RegistrationRequest) -> Msg:
 
     try:
         services.registration_request(email=schema.email)

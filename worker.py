@@ -1,6 +1,6 @@
 from typing import Optional
 
-from celery import Celery, shared_task
+from celery import Celery
 
 import config
 from src.base.schemas import File
@@ -10,7 +10,7 @@ celery_config = config.get_celery_settings()
 celery = Celery(__name__, broker=celery_config.broker, backend=celery_config.result)
 
 
-@shared_task(name='send_email', autoretry_for=(Exception,), max_retries=5, retry_kwargs={'countdown': 5})
+@celery.task(name='send_email', autoretry_for=(Exception,), max_retries=5, retry_kwargs={'countdown': 5})
 def send_email_task(
     *,
     subject: str,

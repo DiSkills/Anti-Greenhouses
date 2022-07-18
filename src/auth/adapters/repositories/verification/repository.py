@@ -1,4 +1,4 @@
-import typing
+from typing import Optional
 
 from sqlalchemy.orm import Session
 
@@ -6,7 +6,6 @@ from src.auth.domain import model
 
 
 class VerificationRepository:
-    """ Verification repository """
 
     def __init__(self, *, session: Session) -> None:
         self.session = session
@@ -14,7 +13,7 @@ class VerificationRepository:
     def add(self, *, verification: model.Verification) -> None:
         self.session.add(verification)
 
-    def get(self, **filtration: str) -> typing.Optional[model.Verification]:
+    def get(self, **filtration: str) -> Optional[model.Verification]:
         return self.session.query(model.Verification).filter_by(**filtration).first()
 
     def remove(self, **filtration: str) -> None:

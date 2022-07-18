@@ -7,7 +7,9 @@ services:
     env_file:
       - configs/config.docker.db.env
     ports:
-      - "5431:5431"
+      - "5432:5432"
+    networks:
+      - backend
 
   rabbitmq:
     container_name: rabbitmq
@@ -16,6 +18,21 @@ services:
       - configs/config.docker.worker.env
     ports:
       - "5672:5672"
+    networks:
+      - backend
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - backend
 
   api:
     container_name: api
@@ -40,6 +57,8 @@ services:
       - configs/config.db.env
       - configs/config.celery.env
       - configs/config.email.env
+    networks:
+      - backend
 
   worker:
     container_name: worker
@@ -63,6 +82,8 @@ services:
       - configs/config.db.env
       - configs/config.celery.env
       - configs/config.email.env
+    networks:
+      - backend
 
   # For development
   flower:
@@ -88,3 +109,8 @@ services:
       - configs/config.db.env
       - configs/config.celery.env
       - configs/config.email.env
+    networks:
+      - backend
+
+networks:
+  backend:

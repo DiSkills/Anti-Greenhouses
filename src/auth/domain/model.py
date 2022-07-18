@@ -4,13 +4,14 @@ from typing import Optional
 
 import config
 
+pwd_context = config.get_pwd_context()
+
 
 @dataclass
 class Verification:
-    """ Verification """
 
-    email: str
     uuid: str
+    email: str
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Verification):
@@ -26,7 +27,6 @@ class Verification:
 
 @dataclass
 class UserAction:
-    """ User action """
 
     uuid: str
     type: config.UserActionType
@@ -46,7 +46,6 @@ class UserAction:
 
 
 class User:
-    """ User """
 
     def __init__(
         self,
@@ -54,7 +53,7 @@ class User:
         username: str,
         email: str,
         password: str,
-        otp_secret: str,  # TODO add default
+        otp_secret: str = '',  # TODO add default
         otp: bool = False,
         is_superuser: bool = False,
         avatar: Optional[str] = None,
@@ -106,3 +105,11 @@ def add_action(*, action: UserAction, user: User) -> None:
 
 def remove_action(*, action: UserAction, user: User) -> None:
     user.remove_action(action=action)
+
+
+def get_password_hash(*, password: str) -> str:
+    return pwd_context.hash(password)
+
+
+def check_password_hash(*, password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(password, hashed_password)

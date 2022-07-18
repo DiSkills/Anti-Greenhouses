@@ -1,10 +1,18 @@
 class VerificationExists(Exception):
-    """ Verification exists """
-
     pass
 
 
 class UserWithEmailExists(Exception):
-    """ User with email exists """
+    pass
 
+
+class UserWithUsernameExists(Exception):
+    pass
+
+
+class VerificationNotFound(Exception):
+    pass
+
+
+class BadVerificationUUID(Exception):
     pass

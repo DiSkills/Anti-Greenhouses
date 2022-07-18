@@ -6,7 +6,6 @@ from src.auth.adapters.repositories.verification.repository import VerificationR
 
 
 class UnitOfWork:
-    """ Unit of Work """
 
     verifications: VerificationRepository
     users: UserRepository

@@ -15,7 +15,7 @@
 </a>
 
 <a href="https://github.com/Anti-Counter021/Anti-Greenhouses/blob/master/pyproject.toml" target="_blank">
-    <img src="https://img.shields.io/badge/API-v0.2.1-brightgreen" alt="API version"/>
+    <img src="https://img.shields.io/badge/API-v0.3.0-brightgreen" alt="API version"/>
 </a>
 
 <a href="https://github.com/Anti-Counter021/Anti-Greenhouses/blob/master/LICENSE" target="_blank">
@@ -66,6 +66,10 @@
 
 <a href="https://github.com/features/actions" target="_blank">
     <img alt="GitHub actions" src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"/>
+</a>
+
+<a href="https://www.nginx.com/" target="_blank">
+    <img alt="Nginx" src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/>
 </a>
 
 ### Tools

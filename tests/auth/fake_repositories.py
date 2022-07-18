@@ -1,19 +1,10 @@
-import typing
+from typing import Optional
 
 from src.auth.domain import model
-
-
-class FakeSession:
-    """ Fake session """
-
-    committed = False
-
-    def commit(self) -> None:
-        self.committed = True
+from tests.base.fake_session import FakeSession
 
 
 class FakeVerificationRepository:
-    """ Fake verification repository """
 
     def __init__(self, *, session: FakeSession, verifications: list[model.Verification]) -> None:
         self._verifications = set(verifications)
@@ -22,7 +13,7 @@ class FakeVerificationRepository:
     def add(self, *, verification: model.Verification) -> None:
         self._verifications.add(verification)
 
-    def _get(self, **filtration: str) -> typing.Optional[model.Verification]:
+    def _get(self, **filtration: str) -> Optional[model.Verification]:
         # Get by email and uuid
         if ('email' in filtration) and ('uuid' in filtration):
             return next(
@@ -37,7 +28,7 @@ class FakeVerificationRepository:
 
         return None
 
-    def get(self, **filtration: str) -> typing.Optional[model.Verification]:
+    def get(self, **filtration: str) -> Optional[model.Verification]:
         try:
             return self._get(**filtration)
         except StopIteration:
@@ -51,7 +42,6 @@ class FakeVerificationRepository:
 
 
 class FakeUserRepository:
-    """ Fake user repository """
 
     def __init__(self, *, session: FakeSession, users: list[model.User]) -> None:
         self._users = set(users)
@@ -60,7 +50,7 @@ class FakeUserRepository:
     def add(self, *, user: model.User) -> None:
         self._users.add(user)
 
-    def _get(self, **filtration: str) -> typing.Optional[model.User]:
+    def _get(self, **filtration: str) -> Optional[model.User]:
         # Get by email and username
         if ('username' in filtration) and ('email' in filtration):
             return next(
@@ -75,7 +65,7 @@ class FakeUserRepository:
 
         return None
 
-    def get(self, **filtration: str) -> typing.Optional[model.User]:
+    def get(self, **filtration: str) -> Optional[model.User]:
         try:
             return self._get(**filtration)
         except StopIteration:
