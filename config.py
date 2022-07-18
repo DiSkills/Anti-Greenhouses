@@ -102,5 +102,5 @@ def get_pwd_context() -> CryptContext:
 
 
 def start_mappers() -> None:
-    from src.auth.adapters.orm import start_mappers as auth_start_mappers
+    from src.auth.adapters.orm import auth_start_mappers
     auth_start_mappers()

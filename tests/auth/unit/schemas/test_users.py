@@ -1,10 +1,11 @@
 import string
-import typing
+from typing import Generator
 
 import pytest
 from pydantic import EmailStr
 
 from src.auth.entrypoints.schemas.users import Password, Registration
+from tests.conftest import TestData
 
 
 def test_password_characters_less_than_8():
@@ -86,7 +87,7 @@ def test_passwords_does_not_have_punctuations():
 
 
 def test_passwords_has_been_validated():
-    password = 'Admin2248!'
+    password = TestData.password.strong
     assert Password.validate(password=password) == password
 
     for char in string.punctuation:
@@ -95,7 +96,7 @@ def test_passwords_has_been_validated():
 
 def test_password_can_get_validators():
     generator = Password.__get_validators__()
-    assert isinstance(generator, typing.Generator)
+    assert isinstance(generator, Generator)
 
     validators = list(generator)
     assert validators == [Password.validate]
@@ -103,21 +104,21 @@ def test_password_can_get_validators():
 
 def test_confirm_password_equals_password():
     Registration(
-        username='test',
+        username=TestData.username.test,
         uuid='uuid',
-        email=EmailStr('user@example.com'),
-        password=Password('Admin2248!'),
-        confirm_password='Admin2248!',
+        email=EmailStr(TestData.email.user),
+        password=Password(TestData.password.strong),
+        confirm_password=TestData.password.strong,
     )
 
 
 def test_confirm_password_not_equals_password():
     with pytest.raises(ValueError, match='Passwords do not match.'):
         Registration(
-            username='test',
+            username=TestData.username.test,
             uuid='uuid',
-            email=EmailStr('user@example.com'),
-            password=Password('Admin2248!'),
+            email=EmailStr(TestData.email.user),
+            password=Password(TestData.password.strong),
             confirm_password='Admin',
         )
 
@@ -127,9 +128,9 @@ def test_username_consists_only_of_the_english_alphabet():
         Registration(
             username='ююююю',
             uuid='uuid',
-            email=EmailStr('user@example.com'),
-            password=Password('Admin2248!'),
-            confirm_password='Admin2248!',
+            email=EmailStr(TestData.email.user),
+            password=Password(TestData.password.strong),
+            confirm_password=TestData.password.strong,
         )
 
 
@@ -138,7 +139,7 @@ def test_username_less_than_3_characters():
         Registration(
             username='te',
             uuid='uuid',
-            email=EmailStr('user@example.com'),
-            password=Password('Admin2248!'),
-            confirm_password='Admin2248!',
+            email=EmailStr(TestData.email.user),
+            password=Password(TestData.password.strong),
+            confirm_password=TestData.password.strong,
         )

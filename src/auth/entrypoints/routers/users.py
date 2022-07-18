@@ -1,9 +1,8 @@
-from typing import Literal
-
 from fastapi import APIRouter, status, Request, HTTPException
 
 from src.auth.entrypoints.schemas import users as schemas
 from src.auth.services import services, exceptions
+from src.base.aliases import Msg
 from src.base.schemas import Message
 
 users = APIRouter(prefix='/auth', tags=['auth'])
@@ -17,7 +16,7 @@ users = APIRouter(prefix='/auth', tags=['auth'])
     response_description='Message',
     response_model=Message,
 )
-def registration(request: Request, schema: schemas.Registration) -> dict[Literal['msg'], str]:
+def registration(request: Request, schema: schemas.Registration) -> Msg:
     try:
         services.registration(schema=schema, ip_address=request.headers.get('x-forwarded-for'))
     except exceptions.UserWithUsernameExists:

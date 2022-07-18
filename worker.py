@@ -1,6 +1,6 @@
 from typing import Optional
 
-from celery import Celery, shared_task
+from celery import Celery
 
 import config
 from src.base.schemas import File
