@@ -3,10 +3,11 @@ from datetime import datetime
 
 import config
 from src.auth.domain import model
+from tests.conftest import TestData
 
 
 def test_user_can_add_action():
-    user = model.User(username='test', email='user@example.com', password='password', otp_secret='secret')
+    user = model.User(username=TestData.username.test, email=TestData.email.user, password=TestData.password.password)
     action = model.UserAction(
         uuid=f'{uuid.uuid4()}', type=config.UserActionType.registered, created_at=datetime.utcnow(),
     )

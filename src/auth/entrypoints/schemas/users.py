@@ -44,6 +44,7 @@ class Registration(BaseModel):
     def validate_confirm_password(
         cls, confirm_password: str, values: dict[Literal['username', 'uuid', 'email', 'password'], str],
     ) -> str:
-        if confirm_password != values.get('password'):
+        password = values.get('password')
+        if (password is not None) and (confirm_password != password):
             raise ValueError('Passwords do not match.')
         return confirm_password
