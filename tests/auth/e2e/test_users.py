@@ -58,8 +58,6 @@ def _create_verification(*, e2e, email: str = TestData.email.user) -> str:
     return uuid
 
 
-# TODO tests for schema
-
 def test_registration_return_201_and_create_user(e2e):
     # Create verification
     uuid = _create_verification(e2e=e2e)
