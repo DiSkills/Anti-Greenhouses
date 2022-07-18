@@ -21,6 +21,19 @@ services:
     networks:
       - backend
 
+  nginx:
+    container_name: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - backend
+
   api:
     container_name: api
     build:
