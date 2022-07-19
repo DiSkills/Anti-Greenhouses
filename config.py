@@ -5,6 +5,7 @@ from enum import Enum
 
 import sqlalchemy
 from passlib.context import CryptContext
+from pymongo import MongoClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -28,8 +29,34 @@ def get_db_uri() -> str:
     return uri
 
 
+@dataclass
+class MongoConfig:
+    host: str
+    port: int
+
+    name: str
+    user: str
+    password: str
+
+
+def get_mongo_settings() -> MongoConfig:
+    host = os.environ.get('MONGO_HOST', 'localhost')
+    port = int(os.environ.get('MONGO_PORT', '27017'))
+    db_name = os.environ.get('MONGO_NAME', 'MONGO_NAME')
+    db_user = os.environ.get('MONGO_USER', 'MONGO_USER')
+    db_password = os.environ.get('MONGO_PASSWORD', 'MONGO_PASSWORD')
+
+    logger.debug(f'[DEBUG] Mongo uri: {db_user}:{db_password}@{host}:{port}/{db_name}')
+
+    return MongoConfig(host=host, port=port, name=db_name, user=db_user, password=db_password)
+
+
 engine = create_engine(url=get_db_uri())
 get_session = sessionmaker(bind=engine, expire_on_commit=False)  # TODO {maybe} expire_on_commit=True
+mongo_config = get_mongo_settings()
+mongo_client = MongoClient(
+    host=mongo_config.host, port=mongo_config.port, username=mongo_config.user, password=mongo_config.password,
+)
 
 
 @dataclass
