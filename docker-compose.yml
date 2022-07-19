@@ -54,7 +54,7 @@ services:
       - mongo
     ports:
       - "8000:8000"
-    command: "make ${API_COMMAND}"
+    command: "make ${API_COMMAND:-server}"
     volumes:
       - ./:/app
     environment:
