@@ -15,7 +15,6 @@ celery-types = "^0.13.1"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 types-passlib = "^1.7.7"
 pymongo = "^4.1.1"
-mongo-types = "^0.15.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

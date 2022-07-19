@@ -15,6 +15,27 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('API')
 
 
+class Verifications:
+    name = 'verifications'
+
+    uuid = 'uuid'
+    email = 'email'
+
+
+class MongoTables:
+    verifications = Verifications()
+
+
+@dataclass
+class MongoConfig:
+    host: str
+    port: int
+
+    name: str
+    user: str
+    password: str
+
+
 def get_db_uri() -> str:
     host = os.environ.get('DB_HOST', 'localhost')
     port = os.environ.get('DB_PORT', '5432')
@@ -27,16 +48,6 @@ def get_db_uri() -> str:
     logger.debug(f'[DEBUG] Database URI: {uri}')
 
     return uri
-
-
-@dataclass
-class MongoConfig:
-    host: str
-    port: int
-
-    name: str
-    user: str
-    password: str
 
 
 def get_mongo_settings() -> MongoConfig:
@@ -54,7 +65,7 @@ def get_mongo_settings() -> MongoConfig:
 engine = create_engine(url=get_db_uri())
 get_session = sessionmaker(bind=engine, expire_on_commit=False)  # TODO {maybe} expire_on_commit=True
 mongo_config = get_mongo_settings()
-mongo_client = MongoClient(
+mongo_client: MongoClient = MongoClient(
     host=mongo_config.host, port=mongo_config.port, username=mongo_config.user, password=mongo_config.password,
 )
 

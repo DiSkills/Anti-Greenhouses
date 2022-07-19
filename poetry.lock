@@ -428,14 +428,6 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
-name = "mongo-types"
-version = "0.15.1"
-description = "Type stubs for mongoengine w/ basic support for bson and pymongo"
-category = "main"
-optional = false
-python-versions = ">=3.7,<4.0"
-
-[[package]]
 name = "mypy"
 version = "0.960"
 description = "Optional static typing for Python"
@@ -891,7 +883,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "2885071ed201011982bfa8d0aa1eb2bac72718b655d76184d77d0c484d544951"
+content-hash = "41e1828c554abc001c65885a853d6518c229a6832ba1b494755b58176de19de1"
 
 [metadata.files]
 amqp = [
@@ -1254,10 +1246,6 @@ markupsafe = [
     {file = "MarkupSafe-2.1.1-cp39-cp39-win32.whl", hash = "sha256:d4306c36ca495956b6d568d276ac11fdd9c30a36f1b6eb928070dc5360b22e1c"},
     {file = "MarkupSafe-2.1.1-cp39-cp39-win_amd64.whl", hash = "sha256:46d00d6cfecdde84d40e572d63735ef81423ad31184100411e6e3388d405e247"},
     {file = "MarkupSafe-2.1.1.tar.gz", hash = "sha256:7f91197cc9e48f989d12e4e6fbc46495c446636dfc81b9ccf50bb0ec74b91d4b"},
-]
-mongo-types = [
-    {file = "mongo-types-0.15.1.tar.gz", hash = "sha256:0a9deeb7733ea7da5db3711d92e22d93556b522f860bbff82e5df44c53bd06a9"},
-    {file = "mongo_types-0.15.1-py3-none-any.whl", hash = "sha256:9417ae5b9a759c09630b5ec7d66904cc333c2d2fcfe75e2760a332ed5e267309"},
 ]
 mypy = [
     {file = "mypy-0.960-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:3a3e525cd76c2c4f90f1449fd034ba21fcca68050ff7c8397bb7dd25dd8b8248"},
