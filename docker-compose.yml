@@ -11,6 +11,16 @@ services:
     networks:
       - backend
 
+  mongo:
+    container_name: mongo
+    image: mongo
+    env_file:
+      - configs/config.docker.mongo.env
+    ports:
+      - "27017:27017"
+    networks:
+      - backend
+
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq
@@ -41,6 +51,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - postgres
+      - mongo
     ports:
       - "8000:8000"
     command: make server
@@ -52,11 +63,14 @@ services:
       - CELERY_HOST=rabbitmq
       - CELERY_PORT=5672
       - CELERY_RESULT=rpc://
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
     env_file:
       - configs/config.app.env
       - configs/config.db.env
       - configs/config.celery.env
       - configs/config.email.env
+      - configs/config.mongo.env
     networks:
       - backend
 
@@ -77,11 +91,14 @@ services:
       - CELERY_HOST=rabbitmq
       - CELERY_PORT=5672
       - CELERY_RESULT=rpc://
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
     env_file:
       - configs/config.app.env
       - configs/config.db.env
       - configs/config.celery.env
       - configs/config.email.env
+      - configs/config.mongo.env
     networks:
       - backend
 
@@ -104,11 +121,14 @@ services:
       - CELERY_HOST=rabbitmq
       - CELERY_PORT=5672
       - CELERY_RESULT=rpc://
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
     env_file:
       - configs/config.app.env
       - configs/config.db.env
       - configs/config.celery.env
       - configs/config.email.env
+      - configs/config.mongo.env
     networks:
       - backend
 
