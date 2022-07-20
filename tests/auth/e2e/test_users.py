@@ -5,6 +5,7 @@ from uuid import uuid4
 from fastapi import status
 from typing_extensions import TypeAlias
 
+from config import MongoTables
 from main import app
 from src.auth.domain import model
 from tests.conftest import TestData
@@ -50,21 +51,22 @@ def _create_user(
 
 
 def _create_verification(*, e2e, email: str = TestData.email.user) -> str:
+    mongo_verifications = e2e.mongo[MongoTables.verifications.name]
+
     uuid = f'{uuid4()}'
-    e2e.session.execute(
-        'INSERT INTO verifications (email, uuid) VALUES (:email, :uuid)', {'email': email, 'uuid': uuid},
-    )
-    e2e.session.commit()
+    mongo_verifications.insert_one({'email': email, 'uuid': uuid})
     return uuid
 
 
 def test_registration_return_201_and_create_user(e2e):
+    mongo_verifications = e2e.mongo[MongoTables.verifications.name]
+
     # Create verification
     uuid = _create_verification(e2e=e2e)
 
     # Database check
-    rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
-    assert rows == ((TestData.email.user, uuid),)
+    rows = tuple(mongo_verifications.find({}, {'_id': False}))
+    assert rows == ({'email': TestData.email.user, 'uuid': uuid},)
     rows = tuple(e2e.session.execute('SELECT * FROM "users"'))
     assert rows == ()
     rows = tuple(e2e.session.execute('SELECT * FROM "user_actions"'))
@@ -78,7 +80,7 @@ def test_registration_return_201_and_create_user(e2e):
     assert response.json() == {'msg': 'You have been successfully registered on our website!'}
 
     # Database check
-    rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
+    rows = tuple(mongo_verifications.find({}, {'_id': False}))
     assert rows == ()
     rows = tuple(e2e.session.execute('SELECT username FROM "users"'))
     assert rows == ((TestData.username.test,),)
@@ -119,7 +121,8 @@ def test_registration_return_400_when_user_with_this_email_exists(e2e):
     assert rows == ((TestData.email.user,),)
 
 
-def test_registration_return_400_when_invalid_verificationuuid(mocker, e2e):
+def test_registration_return_400_when_invalid_verification_uuid(mocker, e2e):
+    mongo_verifications = e2e.mongo[MongoTables.verifications.name]
     mocker.patch('worker.send_email_task', return_value=None)
     mocker.patch('src.base.send_email.send_email', return_value=None)
 
@@ -127,8 +130,8 @@ def test_registration_return_400_when_invalid_verificationuuid(mocker, e2e):
     uuid = _create_verification(e2e=e2e)
 
     # Database check
-    rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
-    assert rows == ((TestData.email.user, uuid),)
+    rows = tuple(mongo_verifications.find({}, {'_id': False}))
+    assert rows == ({'email': TestData.email.user, 'uuid': uuid},)
     rows = tuple(e2e.session.execute('SELECT * FROM "users"'))
     assert rows == ()
 
@@ -140,8 +143,8 @@ def test_registration_return_400_when_invalid_verificationuuid(mocker, e2e):
     }
 
     # Database check
-    rows = tuple(e2e.session.execute('SELECT email, uuid FROM "verifications"'))
-    assert rows == ((TestData.email.user, uuid),)
+    rows = tuple(mongo_verifications.find({}, {'_id': False}))
+    assert rows == ({'email': TestData.email.user, 'uuid': uuid},)
     rows = tuple(e2e.session.execute('SELECT * FROM "users"'))
     assert rows == ()
 

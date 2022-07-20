@@ -1,14 +1,14 @@
 from typing import Optional, overload
 
-from sqlalchemy.orm import Session
+from pymongo.collection import Collection
 
 from src.auth.domain import model
 
 
 class VerificationRepository:
-    session: Session
+    collection: Collection
 
-    def __init__(self, *, session: Session) -> None: ...
+    def __init__(self, *, collection: Collection) -> None: ...
 
     def add(self, *, verification: model.Verification) -> None: ...
 

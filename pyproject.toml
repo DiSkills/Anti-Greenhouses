@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Anti-Greenhouses"
-version = "0.3.0"
+version = "0.3.1"
 description = ""
 authors = ["_Anti_"]
 
@@ -14,6 +14,7 @@ celery = "^5.2.7"
 celery-types = "^0.13.1"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 types-passlib = "^1.7.7"
+pymongo = "^4.1.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

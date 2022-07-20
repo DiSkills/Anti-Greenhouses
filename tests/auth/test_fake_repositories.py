@@ -8,13 +8,11 @@ from tests.conftest import TestData
 def _create_verification_repository(
     *, verifications: list[model.Verification],
 ) -> fake_repositories.FakeVerificationRepository:
-    session = fake_repositories.FakeSession()
-    return fake_repositories.FakeVerificationRepository(session=session, verifications=verifications)
+    return fake_repositories.FakeVerificationRepository(verifications=verifications)
 
 
 def _create_user_repository(*, users: list[model.User]) -> fake_repositories.FakeUserRepository:
-    session = fake_repositories.FakeSession()
-    return fake_repositories.FakeUserRepository(session=session, users=users)
+    return fake_repositories.FakeUserRepository(users=users)
 
 
 def test_add_a_verification():
@@ -130,10 +128,9 @@ def test_add_users():
 
 
 def test_get_user():
-    session = fake_repositories.FakeSession()
     user1 = model.User(username=TestData.username.test, email=TestData.email.user, password=TestData.password.password)
     user2 = model.User(username=TestData.username.user, email=TestData.email.user2, password=TestData.password.password)
-    repository = fake_repositories.FakeUserRepository(session=session, users=[user1, user2])
+    repository = fake_repositories.FakeUserRepository(users=[user1, user2])
     assert repository._users == {user1, user2}
 
     # By username

@@ -6,6 +6,7 @@ from src.auth.entrypoints.routers.users import users
 from src.auth.entrypoints.routers.verifications import verifications
 
 app_config = config.get_app_settings()
+mongo_config = config.get_mongo_settings()
 
 app = FastAPI(
     title=app_config.title,
@@ -22,6 +23,13 @@ async def startup() -> None:
     config.metadata.create_all(bind=config.engine)
     config.logger.debug('[DEBUG] All metadata has been created')
 
+    verifications_table = config.mongo_client[mongo_config.name].create_collection(
+        config.MongoTables.verifications.name,
+    )
+    verifications_table.create_index(config.MongoTables.verifications.uuid, unique=True)
+    verifications_table.create_index(config.MongoTables.verifications.email, unique=True)
+    config.logger.debug('[DEBUG] Mongo tables has been created')
+
 
 @app.on_event('shutdown')
 async def shutdown() -> None:
@@ -30,6 +38,9 @@ async def shutdown() -> None:
 
     config.metadata.drop_all(bind=config.engine)
     config.logger.debug('[DEBUG] All metadata has been dropped')
+
+    config.mongo_client.drop_database(mongo_config.name)
+    config.logger.debug('[DEBUG] Mongo tables has been dropped')
 
 
 app.include_router(verifications, prefix=config.get_api_url())

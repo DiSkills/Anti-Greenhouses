@@ -1,14 +1,12 @@
 from typing import Optional
 
 from src.auth.domain import model
-from tests.base.fake_session import FakeSession
 
 
 class FakeVerificationRepository:
 
-    def __init__(self, *, session: FakeSession, verifications: list[model.Verification]) -> None:
+    def __init__(self, *, verifications: list[model.Verification]) -> None:
         self._verifications = set(verifications)
-        self.session = session
 
     def add(self, *, verification: model.Verification) -> None:
         self._verifications.add(verification)
@@ -43,9 +41,8 @@ class FakeVerificationRepository:
 
 class FakeUserRepository:
 
-    def __init__(self, *, session: FakeSession, users: list[model.User]) -> None:
+    def __init__(self, *, users: list[model.User]) -> None:
         self._users = set(users)
-        self.session = session
 
     def add(self, *, user: model.User) -> None:
         self._users.add(user)

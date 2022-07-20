@@ -1,6 +1,9 @@
 export COMPOSE_DOCKER_CLI_BUILD=1
 export DOCKER_BUILDKIT=1
 
+echo:
+	echo "Hello world!"
+
 mypy:
 	poetry run mypy *.py src/ tests/ --check-untyped-defs
 
@@ -34,7 +37,7 @@ build:
 	docker-compose build
 
 up:
-	docker-compose up
+	API_COMMAND=server docker-compose up
 
 down:
 	docker-compose down
@@ -42,7 +45,7 @@ down:
 production: down build up
 
 testing: down build
-	docker-compose up -d
+	API_COMMAND=echo docker-compose up -d
 	docker-compose run --rm --no-deps --entrypoint="make test" api
 
 check: testing clean down
