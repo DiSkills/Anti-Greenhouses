@@ -11,12 +11,15 @@ class UnitOfWork:
     users: UserRepository
     session: Session
 
-    def __init__(self, *, session_factory = config.get_session) -> None:
+    def __init__(self, *, session_factory = config.get_session, mongo_client = config.mongo_client) -> None:
         self.session_factory = session_factory
+        self.mongo_session = mongo_client[config.mongo_config.name]
 
     def __enter__(self):
         self.session = self.session_factory()
-        self.verifications = VerificationRepository(session=self.session)
+        self.verifications = VerificationRepository(
+            collection=self.mongo_session[config.MongoTables.verifications.name],
+        )
         self.users = UserRepository(session=self.session)
         return self
 

@@ -53,13 +53,14 @@ def mongo_verifications(mongo_session) -> Generator[Collection, None, None]:
 class E2E:
     client: TestClient
     session: Session
+    mongo: Database
 
 
 @pytest.fixture()
 def e2e() -> Generator[E2E, None, None]:
     with TestClient(app=main.app) as client:
         with get_session() as session:
-            yield E2E(client=client, session=session)
+            yield E2E(client=client, session=session, mongo=mongo_client[mongo_config.name])
 
 
 class Password:
