@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Anti-Greenhouses"
-version = "0.4.0"
+version = "0.3.1"
 description = ""
 authors = ["_Anti_"]
 

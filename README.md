@@ -15,7 +15,7 @@
 </a>
 
 <a href="https://github.com/Anti-Counter021/Anti-Greenhouses/blob/master/pyproject.toml" target="_blank">
-    <img src="https://img.shields.io/badge/API-v0.4.0-brightgreen" alt="API version"/>
+    <img src="https://img.shields.io/badge/API-v0.3.1-brightgreen" alt="API version"/>
 </a>
 
 <a href="https://github.com/Anti-Counter021/Anti-Greenhouses/blob/master/LICENSE" target="_blank">
