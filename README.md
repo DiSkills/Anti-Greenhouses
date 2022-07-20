@@ -52,6 +52,10 @@
     <img alt="SQLite" src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white"/>
 </a>
 
+<a href="https://www.mongodb.com/" target="_blank">
+    <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white"/>
+</a>
+
 <a href="https://www.docker.com/" target="_blank">
     <img alt="Docker" src="https://img.shields.io/badge/-Docker-46a2f1?style=for-the-badge&logo=docker&logoColor=white"/>
 </a>
@@ -62,10 +66,6 @@
 
 <a href="https://www.rabbitmq.com/" target="_blank">
     <img alt="RabbitMQ" src="https://img.shields.io/badge/rabbitmq-%23FF6600.svg?&style=for-the-badge&logo=rabbitmq&logoColor=white"/>
-</a>
-
-<a href="https://github.com/features/actions" target="_blank">
-    <img alt="GitHub actions" src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"/>
 </a>
 
 <a href="https://www.nginx.com/" target="_blank">
@@ -92,6 +92,10 @@
 
 <a href="https://github.com/" target="_blank">
     <img alt="GitHub" src="https://img.shields.io/badge/-GitHub-181717?style=for-the-badge&logo=github"/>
+</a>
+
+<a href="https://github.com/features/actions" target="_blank">
+    <img alt="GitHub actions" src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"/>
 </a>
 
 ---
