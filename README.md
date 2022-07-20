@@ -68,10 +68,6 @@
     <img alt="RabbitMQ" src="https://img.shields.io/badge/rabbitmq-%23FF6600.svg?&style=for-the-badge&logo=rabbitmq&logoColor=white"/>
 </a>
 
-<a href="https://github.com/features/actions" target="_blank">
-    <img alt="GitHub actions" src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"/>
-</a>
-
 <a href="https://www.nginx.com/" target="_blank">
     <img alt="Nginx" src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/>
 </a>
@@ -96,6 +92,10 @@
 
 <a href="https://github.com/" target="_blank">
     <img alt="GitHub" src="https://img.shields.io/badge/-GitHub-181717?style=for-the-badge&logo=github"/>
+</a>
+
+<a href="https://github.com/features/actions" target="_blank">
+    <img alt="GitHub actions" src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"/>
 </a>
 
 ---
