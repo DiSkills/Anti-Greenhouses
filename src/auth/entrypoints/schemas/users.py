@@ -36,7 +36,8 @@ class Registration(BaseModel):
     @validator('username')
     def validate_username(cls, username: str) -> str:
         # True if it contains at least 3 letters of the English alphabet
-        if not re.fullmatch(r'[A-Za-z]{3,}', username):
+        # After can contain any number of letters, numbers and "_.-"
+        if not re.fullmatch(r'[A-Za-z]{3,}[A-Za-z\d_.-]*', username):
             raise ValueError('Invalid username.')
         return username
 
