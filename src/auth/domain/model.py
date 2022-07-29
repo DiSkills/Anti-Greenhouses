@@ -8,6 +8,21 @@ pwd_context = config.get_pwd_context()
 
 
 @dataclass
+class BadLogin:
+
+    uuid: str
+    ip_address: Optional[str] = None
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, BadLogin):
+            return False
+        return self.uuid == other.uuid
+
+    def __repr__(self) -> str:
+        return f'<BadLogin {self.uuid}>'
+
+
+@dataclass
 class Verification:
 
     uuid: str
