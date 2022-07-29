@@ -18,7 +18,7 @@ users = APIRouter(prefix='/auth', tags=['auth'])
 )
 def registration(request: Request, schema: schemas.Registration) -> Msg:
     try:
-        services.registration(schema=schema, ip_address=request.headers.get('x-forwarded-for'))
+        services.registration(schema=schema, ip_address=request.state.ip)
     except exceptions.UserWithUsernameExists:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='User with this username exists.')
     except exceptions.UserWithEmailExists:
