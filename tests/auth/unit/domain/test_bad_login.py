@@ -35,3 +35,12 @@ def test_bad_login_the_represent_method():
 
     assert bad_login.__repr__() == f'<BadLogin {bad_login.uuid}>'
     assert f'{bad_login}' == f'<BadLogin {bad_login.uuid}>'
+
+
+def test_bad_login_the_dict_method():
+    bad_login = model.BadLogin(uuid=f'{uuid4()}')
+
+    assert bad_login.dict() == {'uuid': bad_login.uuid, 'ip_address': None}
+
+    bad_login = model.BadLogin(uuid=f'{uuid4()}', ip_address=TestData.ip_address)
+    assert bad_login.dict() == {'uuid': bad_login.uuid, 'ip_address': TestData.ip_address}

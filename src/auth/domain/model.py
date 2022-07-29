@@ -21,6 +21,15 @@ class BadLogin:
     def __repr__(self) -> str:
         return f'<BadLogin {self.uuid}>'
 
+    def __hash__(self) -> int:
+        return hash(self.uuid)
+
+    def dict(self) -> dict[str, Optional[str]]:
+        return {
+            'uuid': self.uuid,
+            'ip_address': self.ip_address,
+        }
+
 
 @dataclass
 class Verification:
@@ -38,6 +47,12 @@ class Verification:
 
     def __hash__(self) -> int:
         return hash(self.uuid)
+
+    def dict(self) -> dict[str, str]:
+        return {
+            'uuid': self.uuid,
+            'email': self.email,
+        }
 
 
 @dataclass

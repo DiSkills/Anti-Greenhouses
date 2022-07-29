@@ -52,6 +52,11 @@ def mongo_verifications(mongo_session) -> Generator[Collection, None, None]:
     yield mongo_session[MongoTables.verifications.name]
 
 
+@pytest.fixture()
+def mongo_bad_logins(mongo_session) -> Generator[Collection, None, None]:
+    yield mongo_session[MongoTables.bad_logins.name]
+
+
 @dataclass
 class E2E:
     client: TestClient
