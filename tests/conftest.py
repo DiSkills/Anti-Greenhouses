@@ -39,6 +39,9 @@ def mongo_session() -> Generator[Database, None, None]:
     verifications_table.create_index(MongoTables.verifications.uuid, unique=True)
     verifications_table.create_index(MongoTables.verifications.email, unique=True)
 
+    bad_logins_table = db.create_collection(MongoTables.bad_logins.name)
+    bad_logins_table.create_index(MongoTables.bad_logins.uuid, unique=True)
+
     yield db
 
     mongo_client.drop_database(mongo_config.name)

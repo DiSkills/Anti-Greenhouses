@@ -22,8 +22,15 @@ class Verifications:
     email = 'email'
 
 
+class BadLogins:
+    name = 'bad_logins'
+
+    uuid = 'uuid'
+
+
 class MongoTables:
     verifications = Verifications()
+    bad_logins = BadLogins()
 
 
 @dataclass

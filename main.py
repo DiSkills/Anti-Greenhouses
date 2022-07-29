@@ -25,11 +25,13 @@ async def startup() -> None:
     config.metadata.create_all(bind=config.engine)
     config.logger.debug('[DEBUG] All metadata has been created')
 
-    verifications_table = config.mongo_client[mongo_config.name].create_collection(
-        config.MongoTables.verifications.name,
-    )
+    db = config.mongo_client[mongo_config.name]
+    verifications_table = db.create_collection(config.MongoTables.verifications.name)
     verifications_table.create_index(config.MongoTables.verifications.uuid, unique=True)
     verifications_table.create_index(config.MongoTables.verifications.email, unique=True)
+
+    bad_logins_table = db.create_collection(config.MongoTables.bad_logins.name)
+    bad_logins_table.create_index(config.MongoTables.bad_logins.uuid, unique=True)
     config.logger.debug('[DEBUG] Mongo tables has been created')
 
 
