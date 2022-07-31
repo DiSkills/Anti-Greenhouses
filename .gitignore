@@ -12,3 +12,5 @@
 /configs/config.email.env
 /configs/config.mongo.env
 /configs/config.docker.mongo.env
+
+/.coverage

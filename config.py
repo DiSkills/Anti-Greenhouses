@@ -8,11 +8,14 @@ from passlib.context import CryptContext
 from pymongo import MongoClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from typing_extensions import TypeAlias
 
 metadata = sqlalchemy.MetaData()
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('API')
+
+Seconds: TypeAlias = int
 
 
 class Verifications:
@@ -82,6 +85,7 @@ class AppConfig:
     title: str
     version: str
     description: str
+    secret_key: str
 
 
 @dataclass
@@ -98,6 +102,17 @@ class EmailConfig:
     port: int
 
 
+class JWTConfig:
+    default: Seconds = 60 * 15
+    access: Seconds = 60 * 15
+    refresh: Seconds = 60 * 60 * 24 * 14
+
+    access_subject: str = 'access'
+    refresh_subject: str = 'refresh'
+
+    algorithms: list[str] = ['HS256']
+
+
 class UserActionType(Enum):
     registered = 'User registered'
 
@@ -109,7 +124,10 @@ def get_app_settings() -> AppConfig:
 
     logger.debug(f'[DEBUG] Title: {title}, Version: {version}, Description: {description}')
 
-    return AppConfig(title=title, version=version, description=description)
+    secret_key = os.environ.get('SECRET_KEY', 'SECRET_KEY')
+    logger.debug(f'[DEBUG] Secret key: {secret_key}')
+
+    return AppConfig(title=title, version=version, description=description, secret_key=secret_key)
 
 
 def get_api_url() -> str:
