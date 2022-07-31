@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional, Union, Callable
+from uuid import uuid4
 
 import config
 
@@ -83,6 +84,7 @@ class User:
         username: str,
         email: str,
         password: str,
+        uuid: Union[str, Callable] = lambda: f'{uuid4()}',
         otp_secret: str = '',  # TODO add default
         otp: bool = False,
         is_superuser: bool = False,
@@ -92,6 +94,12 @@ class User:
         self.username = username
         self.email = email
         self.password = password
+
+        if isinstance(uuid, str):
+            self.uuid = uuid
+        else:
+            self.uuid = uuid()
+
         self.avatar = avatar
 
         if isinstance(date_joined, datetime):

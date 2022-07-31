@@ -58,14 +58,15 @@ def test_registration_request_return_400_when_user_with_this_email_exists(mocker
     email = TestData.email.user
     date_joined = datetime.utcnow()
     e2e.session.execute(
-        'INSERT INTO users (username, email, password, otp_secret, otp, is_superuser, avatar, date_joined) VALUES '
-        '(:username, :email, :password, :otp_secret, FALSE, FALSE, NULL, :date_joined)',
+        'INSERT INTO users (username, email, password, otp_secret, otp, is_superuser, avatar, date_joined, uuid)'
+        ' VALUES (:username, :email, :password, :otp_secret, FALSE, FALSE, NULL, :date_joined, :uuid)',
         {
             'username': TestData.username.test,
             'email': email,
             'password': 'hashed_password',
             'otp_secret': 'otp_secret',
             'date_joined': date_joined,
+            'uuid': f'{uuid4()}',
         },
     )
     e2e.session.commit()
