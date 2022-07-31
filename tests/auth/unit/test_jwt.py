@@ -4,7 +4,7 @@ import jwt
 
 import config
 from config import JWTConfig
-from src.auth.services.jwt import create_token, create_access_token
+from src.auth.services.jwt import create_token, create_access_token, create_login_tokens
 
 
 def test_create_token():
@@ -36,3 +36,34 @@ def test_create_access_token():
         'subject': JWTConfig.access_subject,
         'exp': decoded.get('exp'),
     }
+
+
+def test_create_login_tokens():
+    uuid = f'{uuid4()}'
+    secret_key = config.get_app_settings().secret_key
+
+    tokens = create_login_tokens(user_id=1, uuid=uuid, is_superuser=False)
+
+    # Access
+    decoded = jwt.decode(tokens.access, secret_key, algorithms=JWTConfig.algorithms)
+    access_expires = decoded['exp']
+    assert decoded == {
+        'user_id': 1,
+        'is_superuser': False,
+        'uuid': uuid,
+        'subject': JWTConfig.access_subject,
+        'exp': access_expires,
+    }
+
+    # Refresh
+    decoded = jwt.decode(tokens.refresh, secret_key, algorithms=JWTConfig.algorithms)
+    refresh_expires = decoded['exp']
+    assert decoded == {
+        'user_id': 1,
+        'is_superuser': False,
+        'uuid': uuid,
+        'subject': JWTConfig.refresh_subject,
+        'exp': refresh_expires,
+    }
+
+    assert refresh_expires > access_expires
