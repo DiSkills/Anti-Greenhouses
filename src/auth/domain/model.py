@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union, Callable
 
 import config
 
@@ -87,13 +87,17 @@ class User:
         otp: bool = False,
         is_superuser: bool = False,
         avatar: Optional[str] = None,
-        date_joined: datetime = datetime.utcnow(),
+        date_joined: Union[datetime, Callable] = datetime.utcnow,
     ) -> None:
         self.username = username
         self.email = email
         self.password = password
         self.avatar = avatar
-        self.date_joined = date_joined
+
+        if isinstance(date_joined, datetime):
+            self.date_joined = date_joined
+        else:
+            self.date_joined = date_joined()
 
         self.otp = otp
         self.otp_secret = otp_secret
