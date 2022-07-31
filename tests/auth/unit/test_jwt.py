@@ -10,10 +10,8 @@ from src.auth.services.jwt import create_token, create_access_token, create_logi
 def test_create_token():
     uuid = f'{uuid4()}'
 
-    access_token = create_token(
-        data={'user_id': 1, 'is_superuser': False, 'uuid': uuid, 'subject': JWTConfig.access_subject},
-        expires_delta=JWTConfig.access,
-    )
+    data = {'user_id': 1, 'is_superuser': False, 'uuid': uuid, 'subject': JWTConfig.access_subject}
+    access_token = create_token(data=data, expires_delta=JWTConfig.access)
     decoded = jwt.decode(access_token, config.get_app_settings().secret_key, algorithms=JWTConfig.algorithms)
     assert decoded == {
         'user_id': 1,
@@ -22,6 +20,7 @@ def test_create_token():
         'subject': JWTConfig.access_subject,
         'exp': decoded.get('exp'),
     }
+    assert data == {'user_id': 1, 'is_superuser': False, 'uuid': uuid, 'subject': JWTConfig.access_subject}
 
 
 def test_create_access_token():
