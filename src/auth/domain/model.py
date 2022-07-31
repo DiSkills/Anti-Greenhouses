@@ -95,17 +95,7 @@ class User:
         self.email = email
         self.password = password
 
-        if isinstance(uuid, str):
-            self.uuid = uuid
-        else:
-            self.uuid = uuid()
-
         self.avatar = avatar
-
-        if isinstance(date_joined, datetime):
-            self.date_joined = date_joined
-        else:
-            self.date_joined = date_joined()
 
         self.otp = otp
         self.otp_secret = otp_secret
@@ -113,6 +103,16 @@ class User:
         self.is_superuser = is_superuser
 
         self._actions: set[UserAction] = set()
+
+        if isinstance(uuid, str):
+            self.uuid = uuid
+        else:
+            self.uuid = uuid()
+
+        if isinstance(date_joined, datetime):
+            self.date_joined = date_joined
+        else:
+            self.date_joined = date_joined()
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, User):
