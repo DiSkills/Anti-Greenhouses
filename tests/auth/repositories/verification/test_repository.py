@@ -5,9 +5,7 @@ from tests.auth.repositories.verification.repository import FakeVerificationRepo
 from tests.conftest import TestData
 
 
-def _create_verification_repository(
-    *, verifications: list[model.Verification],
-) -> FakeVerificationRepository:
+def _create_verification_repository(*, verifications: list[model.Verification]) -> FakeVerificationRepository:
     return FakeVerificationRepository(verifications=verifications)
 
 
