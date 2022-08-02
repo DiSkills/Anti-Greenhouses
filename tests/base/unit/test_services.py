@@ -3,7 +3,8 @@ from uuid import uuid4
 import pytest
 
 from src.auth.domain import model
-from src.base.services import services, exceptions
+from src.base import exceptions
+from src.base.services import services
 from tests.base.fake_uow import FakeUnitOfWork
 from tests.conftest import TestData
 

@@ -3,7 +3,8 @@ from typing import Callable
 from fastapi import Request, Response, status
 from fastapi.responses import JSONResponse
 
-from src.base.services import services, exceptions
+from src.base import exceptions
+from src.base.services import services
 
 
 async def ip_middleware(request: Request, call_next: Callable) -> Response:

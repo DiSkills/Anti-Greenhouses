@@ -6,10 +6,6 @@ on:
       - master
       - 'releases/**'
   pull_request:
-    branches:
-      - master
-      - dev
-      - 'releases/**'
 
 jobs:
   test:

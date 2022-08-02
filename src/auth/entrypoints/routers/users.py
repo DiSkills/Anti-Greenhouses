@@ -1,7 +1,8 @@
 from fastapi import APIRouter, status, Request, HTTPException
 
+from src.auth import exceptions
 from src.auth.entrypoints.schemas import users as schemas
-from src.auth.services import services, exceptions
+from src.auth.services import registration as services
 from src.base.aliases import Msg
 from src.base.entrypoints.schemas import Message
 

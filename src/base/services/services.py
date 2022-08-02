@@ -1,7 +1,7 @@
 from typing import Optional
 
+from src.base import exceptions
 from src.base.aliases import TypeUoW
-from src.base.services import exceptions
 from src.base.uow import UnitOfWork
 
 
