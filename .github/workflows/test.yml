@@ -48,6 +48,7 @@ jobs:
       VERSION: ${{ secrets.VERSION }}
       DESCRIPTION: ${{ secrets.DESCRIPTION }}
       API_URL: ${{ secrets.API_URL }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
       DB_NAME: ${{ secrets.POSTGRES_USER }}
       DB_USER: ${{ secrets.POSTGRES_USER }}
