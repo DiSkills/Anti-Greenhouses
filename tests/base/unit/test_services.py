@@ -50,3 +50,7 @@ def test_user_ip_is_blocked():
         services.bad_logins(ip=TestData.ip_address, uow=uow)
 
     assert uow.committed is False
+
+    # Doesn't block other ip
+    services.bad_logins(ip='other-ip', uow=uow)
+    assert uow.committed is True
