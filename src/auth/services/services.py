@@ -104,7 +104,12 @@ def login(
             raise exceptions.InvalidUsernameOrPassword('Invalid username or password.')
 
         if not model.check_password_hash(password=password, hashed_password=user.password):
-            # TODO
+            bad_login = model.BadLogin(uuid=f'{uuid4()}', ip_address=ip_address)
+            uow.bad_logins.add(bad_login=bad_login)
+
+            # TODO celery task
+
+            uow.commit()
             raise exceptions.InvalidUsernameOrPassword('Invalid username or password.')
 
         send_email(
