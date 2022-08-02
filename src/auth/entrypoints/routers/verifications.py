@@ -3,7 +3,7 @@ from fastapi import APIRouter, status, HTTPException
 from src.auth.entrypoints.schemas import verifications as schemas
 from src.auth.services import exceptions, services
 from src.base.aliases import Msg
-from src.base.schemas import Message
+from src.base.entrypoints.schemas import Message
 
 verifications = APIRouter(prefix='/auth', tags=['auth'])
 

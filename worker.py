@@ -3,7 +3,7 @@ from typing import Optional
 from celery import Celery
 
 import config
-from src.base.schemas import File
+from src.base.entrypoints.schemas import File
 from src.base.send_email import Email
 
 celery_config = config.get_celery_settings()
