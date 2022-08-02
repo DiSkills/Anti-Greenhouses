@@ -15,6 +15,7 @@ from worker import remove_bad_login
 def login(
     *, username: str, password: str, ip_address: Optional[str] = None, uow: TypeUoW = UnitOfWork(),
 ) -> jwt.LoginTokens:
+
     with uow:
         if '@' in username:
             user = uow.users.get(email=username)
