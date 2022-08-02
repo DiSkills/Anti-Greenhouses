@@ -1,15 +1,12 @@
 from uuid import uuid4
 
 from src.auth.domain import model
-from tests.auth import fake_repositories
+from tests.auth.repositories.bad_login.repository import FakeBadLoginRepository
 from tests.conftest import TestData
 
 
-
-
-
 def test_add_a_bad_login():
-    repository = fake_repositories.FakeBadLoginRepository(bad_logins=[])
+    repository = FakeBadLoginRepository(bad_logins=[])
     assert repository._bad_logins == set()
 
     bad_login = model.BadLogin(uuid=f'{uuid4()}', ip_address=TestData.ip_address)
@@ -18,7 +15,7 @@ def test_add_a_bad_login():
 
 
 def test_add_bad_logins():
-    repository = fake_repositories.FakeBadLoginRepository(bad_logins=[])
+    repository = FakeBadLoginRepository(bad_logins=[])
     assert repository._bad_logins == set()
 
     bad_login1 = model.BadLogin(uuid=f'{uuid4()}', ip_address=TestData.ip_address)
@@ -31,7 +28,7 @@ def test_add_bad_logins():
 
 
 def test_get_count_bad_logins_by_ip():
-    repository = fake_repositories.FakeBadLoginRepository(bad_logins=[])
+    repository = FakeBadLoginRepository(bad_logins=[])
     assert repository.count() == 0
     assert repository.count(ip_address=TestData.ip_address) == 0
     assert repository.count(ip_address='bad-ip') == 0
@@ -57,7 +54,7 @@ def test_remove_a_bad_login():
     bad_login2 = model.BadLogin(uuid=uuid2, ip_address=TestData.ip_address)
     bad_login3 = model.BadLogin(uuid=uuid3)
 
-    repository = fake_repositories.FakeBadLoginRepository(bad_logins=[bad_login1, bad_login2, bad_login3])
+    repository = FakeBadLoginRepository(bad_logins=[bad_login1, bad_login2, bad_login3])
     assert repository._bad_logins == {bad_login1, bad_login2, bad_login3}
 
     # By uuid
