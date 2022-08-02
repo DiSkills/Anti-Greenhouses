@@ -5,7 +5,7 @@ from uuid import uuid4
 import config
 from src.auth.domain import model
 from src.auth.entrypoints.schemas.users import Registration
-from src.auth.services import exceptions
+from src.auth.services import exceptions, jwt
 from src.base.aliases import TypeUoW
 from src.base.uow import UnitOfWork
 from src.base.send_email import send_email
@@ -84,3 +84,40 @@ def registration(
         )
         model.add_action(action=action, user=user)
         uow.commit()
+
+
+# TODO add otp
+def login(
+    *,
+    username: str,
+    password: str,
+    ip_address: Optional[str] = None,
+    uow: TypeUoW = UnitOfWork(),
+) -> jwt.LoginTokens:
+    with uow:
+        if '@' in username:
+            user = uow.users.get(email=username)
+        else:
+            user = uow.users.get(username=username)
+
+        if user is None:
+            raise exceptions.InvalidUsernameOrPassword('Invalid username or password.')
+
+        if not model.check_password_hash(password=password, hashed_password=user.password):
+            # TODO
+            raise exceptions.InvalidUsernameOrPassword('Invalid username or password.')
+
+        send_email(
+            subject='[Anti-Greenhouses] New login to your account',
+            recipient=user.email,
+            text=f'Logged into your account with ip: {ip_address}',
+        )
+        action = model.UserAction(
+            uuid=f'{uuid4()}',
+            type=config.UserActionType.login,
+            created_at=datetime.utcnow(),
+            ip_address=ip_address,
+        )
+        model.add_action(action=action, user=user)
+        uow.commit()
+        return jwt.create_login_tokens(username=user.username, uuid=user.uuid, is_superuser=user.is_superuser)

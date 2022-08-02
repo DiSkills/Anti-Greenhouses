@@ -115,6 +115,7 @@ class JWTConfig:
 
 class UserActionType(Enum):
     registered = 'User registered'
+    login = 'User authorized'
 
 
 def get_app_settings() -> AppConfig:
