@@ -1,4 +1,5 @@
-from tests.auth.fake_repositories import FakeVerificationRepository, FakeUserRepository, FakeBadLoginRepository
+from tests.auth.fake_repositories import FakeUserRepository, FakeBadLoginRepository
+from tests.auth.repositories.verification.repository import FakeVerificationRepository
 
 
 class FakeUnitOfWork:
