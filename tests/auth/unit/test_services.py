@@ -279,7 +279,10 @@ def test_login_invalid_username():
     assert uow.committed is False
 
 
-def test_login_invalid_password():
+def test_login_invalid_password(mocker):
+    mocker.patch('worker.remove_bad_login', return_value=None)
+    mocker.patch('worker.remove_bad_login_task', return_value=None)
+
     uow = FakeUnitOfWork()
     assert uow.committed is False
     assert uow.bad_logins.count(ip_address=TestData.ip_address) == 0

@@ -16,7 +16,7 @@ users = APIRouter(prefix='/auth', tags=['auth'])
     response_description='Message',
     response_model=Message,
 )
-def registration(request: Request, schema: schemas.Registration) -> Msg:
+async def registration(request: Request, schema: schemas.Registration) -> Msg:
     try:
         services.registration(schema=schema, ip_address=request.state.ip)
     except exceptions.UserWithUsernameExists:

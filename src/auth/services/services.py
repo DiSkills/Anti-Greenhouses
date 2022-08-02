@@ -9,6 +9,7 @@ from src.auth.services import exceptions, jwt
 from src.base.aliases import TypeUoW
 from src.base.uow import UnitOfWork
 from src.base.send_email import send_email
+from worker import remove_bad_login
 
 
 def registration_request(*, email: str, uow: TypeUoW = UnitOfWork()) -> None:
@@ -107,7 +108,7 @@ def login(
             bad_login = model.BadLogin(uuid=f'{uuid4()}', ip_address=ip_address)
             uow.bad_logins.add(bad_login=bad_login)
 
-            # TODO celery task
+            remove_bad_login(uuid=bad_login.uuid)
 
             uow.commit()
             raise exceptions.InvalidUsernameOrPassword('Invalid username or password.')

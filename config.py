@@ -93,6 +93,8 @@ class CeleryConfig:
     broker: str
     result: str
 
+    bad_login_countdown: Seconds
+
 
 @dataclass
 class EmailConfig:
@@ -141,12 +143,14 @@ def get_celery_settings() -> CeleryConfig:
     celery_user = os.environ.get('CELERY_USER', 'CELERY_USER')
     celery_password = os.environ.get('CELERY_PASSWORD', 'CELERY_PASSWORD')
 
+    bad_login_countdown = Seconds(os.environ.get('BAD_LOGIN_COUNTDOWN', 60 * 10))
+
     broker = f'amqp://{celery_user}:{celery_password}@{host}:{port}//'
     result = os.environ.get('CELERY_RESULT', 'rpc://')
 
     logger.debug(f'[DEBUG] Celery broker: {broker}, Celery result: {result}')
 
-    return CeleryConfig(broker=broker, result=result)
+    return CeleryConfig(broker=broker, result=result, bad_login_countdown=bad_login_countdown)
 
 
 def get_email_settings() -> EmailConfig:
