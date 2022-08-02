@@ -3,7 +3,7 @@ from fastapi import APIRouter, status, Request, HTTPException
 from src.auth.entrypoints.schemas import users as schemas
 from src.auth.services import services, exceptions
 from src.base.aliases import Msg
-from src.base.schemas import Message
+from src.base.entrypoints.schemas import Message
 
 users = APIRouter(prefix='/auth', tags=['auth'])
 

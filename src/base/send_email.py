@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from typing import Optional, Union
 
 import config
-from src.base.schemas import File
+from src.base.entrypoints.schemas import File
 
 email_config = config.get_email_settings()
 

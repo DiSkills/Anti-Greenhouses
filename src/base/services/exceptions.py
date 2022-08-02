@@ -1,0 +1,2 @@
+class ManyBadLogins(Exception):
+    pass
