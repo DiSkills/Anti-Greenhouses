@@ -1,11 +1,10 @@
-from typing import Callable
-
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI
 from sqlalchemy.orm import clear_mappers
 
 import config
 from src.auth.entrypoints.routers.users import users
 from src.auth.entrypoints.routers.verifications import verifications
+from src.base import middlewares
 
 app_config = config.get_app_settings()
 mongo_config = config.get_mongo_settings()
@@ -47,12 +46,7 @@ async def shutdown() -> None:
     config.logger.debug('[DEBUG] Mongo tables has been dropped')
 
 
-@app.middleware('http')
-async def ip_middleware(request: Request, call_next: Callable) -> Response:
-    request.state.ip = request.headers.get('x-forwarded-for')
-    response = await call_next(request)
-    return response
-
+app.middleware('http')(middlewares.ip_middleware)
 
 app.include_router(verifications, prefix=config.get_api_url())
 app.include_router(users, prefix=config.get_api_url())
