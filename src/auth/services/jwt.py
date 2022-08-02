@@ -21,9 +21,9 @@ def create_token(*, data: dict[str, Any], expires_delta: Seconds = JWTConfig.def
     return jwt.encode(encode, config.get_app_settings().secret_key, algorithm=JWTConfig.algorithms[0])
 
 
-def create_access_token(*, user_id: int, uuid: str, is_superuser: bool = False) -> str:
+def create_access_token(*, username: str, uuid: str, is_superuser: bool = False) -> str:
     data = {
-        'user_id': user_id,
+        'username': username,
         'uuid': uuid,
         'is_superuser': is_superuser,
         'subject': JWTConfig.access_subject,
@@ -31,11 +31,11 @@ def create_access_token(*, user_id: int, uuid: str, is_superuser: bool = False) 
     return create_token(data=data, expires_delta=JWTConfig.access)
 
 
-def create_login_tokens(*, user_id: int, uuid: str, is_superuser: bool = False) -> LoginTokens:
-    access_token = create_access_token(user_id=user_id, uuid=uuid, is_superuser=is_superuser)
+def create_login_tokens(*, username: str, uuid: str, is_superuser: bool = False) -> LoginTokens:
+    access_token = create_access_token(username=username, uuid=uuid, is_superuser=is_superuser)
 
     data = {
-        'user_id': user_id,
+        'username': username,
         'uuid': uuid,
         'is_superuser': is_superuser,
         'subject': JWTConfig.refresh_subject,
