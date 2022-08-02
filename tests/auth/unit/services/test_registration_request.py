@@ -4,7 +4,7 @@ import pytest
 
 from src.auth.domain import model
 from src.auth.exceptions import VerificationExists, UserWithEmailExists
-from src.auth.services.services import registration_request
+from src.auth.services.registration_request import registration_request
 from tests.base.fake_uow import FakeUnitOfWork
 from tests.conftest import TestData
 

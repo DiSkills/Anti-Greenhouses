@@ -2,7 +2,7 @@ from fastapi import APIRouter, status, HTTPException
 
 from src.auth import exceptions
 from src.auth.entrypoints.schemas import verifications as schemas
-from src.auth.services import services
+from src.auth.services import registration_request as services
 from src.base.aliases import Msg
 from src.base.entrypoints.schemas import Message
 
