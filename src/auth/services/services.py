@@ -3,9 +3,9 @@ from typing import Optional
 from uuid import uuid4
 
 import config
+from src.auth import exceptions, jwt
 from src.auth.domain import model
 from src.auth.entrypoints.schemas.users import Registration
-from src.auth.services import exceptions, jwt
 from src.base.aliases import TypeUoW
 from src.base.uow import UnitOfWork
 from src.base.send_email import send_email

@@ -6,12 +6,7 @@ from pydantic import EmailStr
 import config
 from src.auth.domain import model
 from src.auth.entrypoints.schemas.users import Registration, Password
-from src.auth.services.exceptions import (
-    UserWithUsernameExists,
-    UserWithEmailExists,
-    VerificationNotFound,
-    BadVerificationUUID,
-)
+from src.auth.exceptions import UserWithUsernameExists, UserWithEmailExists, BadVerificationUUID, VerificationNotFound
 from src.auth.services.services import registration
 from tests.base.fake_uow import FakeUnitOfWork
 from tests.conftest import TestData

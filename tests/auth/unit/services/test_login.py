@@ -3,7 +3,7 @@ import pytest
 
 import config
 from src.auth.domain import model
-from src.auth.services.exceptions import InvalidUsernameOrPassword
+from src.auth.exceptions import InvalidUsernameOrPassword
 from src.auth.services.services import login
 from tests.base.fake_uow import FakeUnitOfWork
 from tests.conftest import TestData

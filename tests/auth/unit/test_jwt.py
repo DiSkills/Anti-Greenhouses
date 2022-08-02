@@ -4,7 +4,7 @@ import jwt
 
 import config
 from config import JWTConfig
-from src.auth.services.jwt import create_token, create_access_token, create_login_tokens
+from src.auth.jwt import create_token, create_access_token, create_login_tokens
 from tests.conftest import TestData
 
 
