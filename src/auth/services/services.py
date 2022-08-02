@@ -42,9 +42,7 @@ def registration_request(*, email: str, uow: TypeUoW = UnitOfWork()) -> None:
         )
 
 
-def registration(
-    *, schema: Registration, ip_address: Optional[str] = None, uow: TypeUoW = UnitOfWork(),
-) -> None:
+def registration(*, schema: Registration, ip_address: Optional[str] = None, uow: TypeUoW = UnitOfWork()) -> None:
 
     with uow:
         if uow.users.get(username=schema.username) is not None:
@@ -89,11 +87,7 @@ def registration(
 
 # TODO add otp
 def login(
-    *,
-    username: str,
-    password: str,
-    ip_address: Optional[str] = None,
-    uow: TypeUoW = UnitOfWork(),
+    *, username: str, password: str, ip_address: Optional[str] = None, uow: TypeUoW = UnitOfWork(),
 ) -> jwt.LoginTokens:
     with uow:
         if '@' in username:
