@@ -4,7 +4,7 @@ from sqlalchemy.orm import clear_mappers
 import config
 from src.auth.entrypoints.routers.users import users
 from src.auth.entrypoints.routers.verifications import verifications
-from src.base import middlewares
+from src.base.entrypoints import middlewares
 
 app_config = config.get_app_settings()
 mongo_config = config.get_mongo_settings()
@@ -46,6 +46,7 @@ async def shutdown() -> None:
     config.logger.debug('[DEBUG] Mongo tables has been dropped')
 
 
+app.middleware('http')(middlewares.bad_logins_middleware)
 app.middleware('http')(middlewares.ip_middleware)
 
 app.include_router(verifications, prefix=config.get_api_url())
