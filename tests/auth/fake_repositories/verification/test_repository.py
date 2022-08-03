@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from src.auth.domain import model
-from tests.auth.repositories.verification.repository import FakeVerificationRepository
+from tests.auth.fake_repositories.verification.repository import FakeVerificationRepository
 from tests.conftest import TestData
 
 

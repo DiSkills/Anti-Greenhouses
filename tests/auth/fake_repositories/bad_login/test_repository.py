@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from src.auth.domain import model
-from tests.auth.repositories.bad_login.repository import FakeBadLoginRepository
+from tests.auth.fake_repositories.bad_login.repository import FakeBadLoginRepository
 from tests.conftest import TestData
 
 

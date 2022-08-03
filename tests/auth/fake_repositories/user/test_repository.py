@@ -1,5 +1,5 @@
 from src.auth.domain import model
-from tests.auth.repositories.user.repository import FakeUserRepository
+from tests.auth.fake_repositories.user.repository import FakeUserRepository
 from tests.conftest import TestData
 
 
