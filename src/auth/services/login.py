@@ -5,6 +5,7 @@ from uuid import uuid4
 import config
 from src.auth import jwt, exceptions
 from src.auth.domain import model
+from src.auth.security import check_password_hash
 from src.base.aliases import TypeUoW
 from src.base.send_email import send_email
 from src.base.uow import UnitOfWork
@@ -25,7 +26,7 @@ def login(
         if user is None:
             raise exceptions.InvalidUsernameOrPassword('Invalid username or password.')
 
-        if not model.check_password_hash(password=password, hashed_password=user.password):
+        if not check_password_hash(password=password, hashed_password=user.password):
             bad_login = model.BadLogin(uuid=f'{uuid4()}', ip_address=ip_address)
             uow.bad_logins.add(bad_login=bad_login)
 

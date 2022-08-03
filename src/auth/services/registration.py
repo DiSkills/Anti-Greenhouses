@@ -6,6 +6,7 @@ import config
 from src.auth import exceptions
 from src.auth.domain import model
 from src.auth.entrypoints.schemas.users import Registration
+from src.auth.security import get_password_hash
 from src.base.aliases import TypeUoW
 from src.base.send_email import send_email
 from src.base.uow import UnitOfWork
@@ -40,7 +41,7 @@ def registration(*, schema: Registration, ip_address: Optional[str] = None, uow:
         user = model.User(
             username=schema.username,
             email=schema.email,
-            password=model.get_password_hash(password=schema.password),
+            password=get_password_hash(password=schema.password),
         )
         uow.users.add(user=user)
 

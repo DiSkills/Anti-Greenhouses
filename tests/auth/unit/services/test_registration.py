@@ -7,6 +7,7 @@ import config
 from src.auth.domain import model
 from src.auth.entrypoints.schemas.users import Registration, Password
 from src.auth.exceptions import UserWithUsernameExists, UserWithEmailExists, BadVerificationUUID, VerificationNotFound
+from src.auth.security import check_password_hash
 from src.auth.services.registration import registration
 from tests.base.fake_uow import FakeUnitOfWork
 from tests.conftest import TestData
@@ -42,7 +43,7 @@ def test_registration_create_user():
     user = uow.users.get(username=TestData.username.test)
     assert user is not None
     assert user.password != TestData.password.strong
-    assert model.check_password_hash(password=TestData.password.strong, hashed_password=user.password) is True
+    assert check_password_hash(password=TestData.password.strong, hashed_password=user.password) is True
     assert user.count_actions == 1
     assert user.actions[0].type == config.UserActionType.registered
 

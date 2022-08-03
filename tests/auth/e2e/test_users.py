@@ -7,7 +7,7 @@ from typing_extensions import TypeAlias
 
 from config import MongoTables
 from main import app
-from src.auth.domain import model
+from src.auth.security import check_password_hash
 from tests.conftest import TestData
 
 registration_data: TypeAlias = dict[Literal['username', 'email', 'password', 'confirm_password', 'uuid'], str]
@@ -87,7 +87,7 @@ def test_registration_return_201_and_create_user(e2e):
     assert rows == ((TestData.username.test,),)
 
     password, = tuple(e2e.session.execute('SELECT password FROM "users"'))[0]
-    assert model.check_password_hash(password=TestData.password.strong, hashed_password=password) is True
+    assert check_password_hash(password=TestData.password.strong, hashed_password=password) is True
 
     # Check actions
     rows = tuple(e2e.session.execute('SELECT id, user_id, action_id FROM "user_actions"'))

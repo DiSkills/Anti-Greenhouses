@@ -5,8 +5,6 @@ from uuid import uuid4
 
 import config
 
-pwd_context = config.get_pwd_context()
-
 
 @dataclass
 class BadLogin:
@@ -147,11 +145,3 @@ def add_action(*, action: UserAction, user: User) -> None:
 
 def remove_action(*, action: UserAction, user: User) -> None:
     user.remove_action(action=action)
-
-
-def get_password_hash(*, password: str) -> str:
-    return pwd_context.hash(password)
-
-
-def check_password_hash(*, password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(password, hashed_password)

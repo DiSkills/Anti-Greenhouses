@@ -4,6 +4,7 @@ import pytest
 import config
 from src.auth.domain import model
 from src.auth.exceptions import InvalidUsernameOrPassword
+from src.auth.security import get_password_hash
 from src.auth.services.login import login
 from tests.base.fake_uow import FakeUnitOfWork
 from tests.conftest import TestData
@@ -17,7 +18,7 @@ def test_login_by_username_create_tokens(mocker):
     assert uow.committed is False
     assert uow.bad_logins.count(ip_address=TestData.ip_address) == 0
 
-    password = model.get_password_hash(password=TestData.password.password)
+    password = get_password_hash(password=TestData.password.password)
     uow.users.add(user=model.User(username=TestData.username.user, email=TestData.email.user, password=password))
 
     user = uow.users.get(username=TestData.username.user)
@@ -63,7 +64,7 @@ def test_login_by_email_create_tokens(mocker):
     assert uow.committed is False
     assert uow.bad_logins.count(ip_address=TestData.ip_address) == 0
 
-    password = model.get_password_hash(password=TestData.password.password)
+    password = get_password_hash(password=TestData.password.password)
     uow.users.add(user=model.User(username=TestData.username.user, email=TestData.email.user, password=password))
 
     user = uow.users.get(username=TestData.username.user)
@@ -124,7 +125,7 @@ def test_login_invalid_password(mocker):
     assert uow.committed is False
     assert uow.bad_logins.count(ip_address=TestData.ip_address) == 0
 
-    password = model.get_password_hash(password=TestData.password.strong)
+    password = get_password_hash(password=TestData.password.strong)
     uow.users.add(user=model.User(username=TestData.username.user, email=TestData.email.user, password=password))
 
     user = uow.users.get(username=TestData.username.user)

@@ -1,5 +1,5 @@
 import config
-from src.auth.domain.model import get_password_hash, check_password_hash
+from src.auth.security import get_password_hash, check_password_hash
 from tests.conftest import TestData
 
 
