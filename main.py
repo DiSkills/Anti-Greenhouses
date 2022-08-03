@@ -2,8 +2,7 @@ from fastapi import FastAPI
 from sqlalchemy.orm import clear_mappers
 
 import config
-from src.auth.entrypoints.routers.users import users
-from src.auth.entrypoints.routers.verifications import verifications
+from src.auth.entrypoints.routers import auth
 from src.base.entrypoints import middlewares
 
 app_config = config.get_app_settings()
@@ -49,5 +48,4 @@ async def shutdown() -> None:
 app.middleware('http')(middlewares.bad_logins_middleware)
 app.middleware('http')(middlewares.ip_middleware)
 
-app.include_router(verifications, prefix=config.get_api_url())
-app.include_router(users, prefix=config.get_api_url())
+app.include_router(auth, prefix=config.get_api_url())

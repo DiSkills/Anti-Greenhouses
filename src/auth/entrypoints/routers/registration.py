@@ -1,15 +1,15 @@
-from fastapi import APIRouter, status, Request, HTTPException
+from fastapi import APIRouter, Request, HTTPException, status
 
 from src.auth import exceptions
-from src.auth.entrypoints.schemas import users as schemas
+from src.auth.entrypoints.schemas.users import Registration
 from src.auth.services import registration as services
 from src.base.aliases import Msg
 from src.base.entrypoints.schemas import Message
 
-users = APIRouter(prefix='/auth', tags=['auth'])
+registration_router = APIRouter()
 
 
-@users.post(
+@registration_router.post(
     r'/registration',
     name='registration',
     description='Registration',
@@ -17,7 +17,7 @@ users = APIRouter(prefix='/auth', tags=['auth'])
     response_description='Message',
     response_model=Message,
 )
-async def registration(request: Request, schema: schemas.Registration) -> Msg:
+async def registration(request: Request, schema: Registration) -> Msg:
     try:
         services.registration(schema=schema, ip_address=request.state.ip)
     except exceptions.UserWithUsernameExists:
