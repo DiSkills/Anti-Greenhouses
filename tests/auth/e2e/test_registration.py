@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Literal
 from uuid import uuid4
 
@@ -7,7 +6,8 @@ from typing_extensions import TypeAlias
 
 from config import MongoTables
 from main import app
-from src.auth.domain import model
+from src.auth.security import check_password_hash
+from tests.auth.e2e._user import _create_user
 from tests.conftest import TestData
 
 registration_data: TypeAlias = dict[Literal['username', 'email', 'password', 'confirm_password', 'uuid'], str]
@@ -27,27 +27,6 @@ def _get_registration_data(
         'confirm_password': password,
         'uuid': uuid,
     }
-
-
-def _create_user(
-    *,
-    e2e,
-    username: str = TestData.username.test,
-    email: str = TestData.email.user,
-    password: str = TestData.password.strong,
-) -> None:
-    e2e.session.execute(
-        'INSERT INTO users (username, email, password, otp_secret, otp, is_superuser, avatar, date_joined)'
-        ' VALUES (:username, :email, :password, :secret, FALSE, FALSE, NULL, :date_joined)',
-        {
-            'username': username,
-            'email': email,
-            'password': password,
-            'secret': 'secret',
-            'date_joined': datetime.utcnow(),
-        },
-    )
-    e2e.session.commit()
 
 
 def _create_verification(*, e2e, email: str = TestData.email.user) -> str:
@@ -86,7 +65,7 @@ def test_registration_return_201_and_create_user(e2e):
     assert rows == ((TestData.username.test,),)
 
     password, = tuple(e2e.session.execute('SELECT password FROM "users"'))[0]
-    assert model.check_password_hash(password=TestData.password.strong, hashed_password=password) is True
+    assert check_password_hash(password=TestData.password.strong, hashed_password=password) is True
 
     # Check actions
     rows = tuple(e2e.session.execute('SELECT id, user_id, action_id FROM "user_actions"'))

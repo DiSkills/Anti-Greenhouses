@@ -11,11 +11,7 @@ class VerificationRepository:
         self.collection = collection
 
     def add(self, *, verification: model.Verification) -> None:
-        data = {
-            'email': verification.email,
-            'uuid': verification.uuid,
-        }
-        self.collection.insert_one(data)
+        self.collection.insert_one(verification.dict())
 
     def get(self, **filtration: str) -> Optional[model.Verification]:
         data = self.collection.find_one(filtration)

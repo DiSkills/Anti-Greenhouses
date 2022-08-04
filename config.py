@@ -8,11 +8,14 @@ from passlib.context import CryptContext
 from pymongo import MongoClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from typing_extensions import TypeAlias
 
 metadata = sqlalchemy.MetaData()
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('API')
+
+Seconds: TypeAlias = int
 
 
 class Verifications:
@@ -22,8 +25,15 @@ class Verifications:
     email = 'email'
 
 
+class BadLogins:
+    name = 'bad_logins'
+
+    uuid = 'uuid'
+
+
 class MongoTables:
     verifications = Verifications()
+    bad_logins = BadLogins()
 
 
 @dataclass
@@ -75,12 +85,15 @@ class AppConfig:
     title: str
     version: str
     description: str
+    secret_key: str
 
 
 @dataclass
 class CeleryConfig:
     broker: str
     result: str
+
+    bad_login_countdown: Seconds
 
 
 @dataclass
@@ -91,8 +104,20 @@ class EmailConfig:
     port: int
 
 
+class JWTConfig:
+    default: Seconds = 60 * 15
+    access: Seconds = 60 * 15
+    refresh: Seconds = 60 * 60 * 24 * 14
+
+    access_subject: str = 'access'
+    refresh_subject: str = 'refresh'
+
+    algorithms: list[str] = ['HS256']
+
+
 class UserActionType(Enum):
     registered = 'User registered'
+    login = 'User authorized'
 
 
 def get_app_settings() -> AppConfig:
@@ -102,7 +127,10 @@ def get_app_settings() -> AppConfig:
 
     logger.debug(f'[DEBUG] Title: {title}, Version: {version}, Description: {description}')
 
-    return AppConfig(title=title, version=version, description=description)
+    secret_key = os.environ.get('SECRET_KEY', 'SECRET_KEY')
+    logger.debug(f'[DEBUG] Secret key: {secret_key}')
+
+    return AppConfig(title=title, version=version, description=description, secret_key=secret_key)
 
 
 def get_api_url() -> str:
@@ -115,12 +143,14 @@ def get_celery_settings() -> CeleryConfig:
     celery_user = os.environ.get('CELERY_USER', 'CELERY_USER')
     celery_password = os.environ.get('CELERY_PASSWORD', 'CELERY_PASSWORD')
 
+    bad_login_countdown = Seconds(os.environ.get('BAD_LOGIN_COUNTDOWN', 60 * 10))
+
     broker = f'amqp://{celery_user}:{celery_password}@{host}:{port}//'
     result = os.environ.get('CELERY_RESULT', 'rpc://')
 
     logger.debug(f'[DEBUG] Celery broker: {broker}, Celery result: {result}')
 
-    return CeleryConfig(broker=broker, result=result)
+    return CeleryConfig(broker=broker, result=result, bad_login_countdown=bad_login_countdown)
 
 
 def get_email_settings() -> EmailConfig:

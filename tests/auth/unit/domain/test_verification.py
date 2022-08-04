@@ -35,3 +35,9 @@ def test_verification_the_represent_method():
 
     assert verification.__repr__() == f'<Verification {verification.uuid}>'
     assert f'{verification}' == f'<Verification {verification.uuid}>'
+
+
+def test_verification_the_dict_method():
+    verification = model.Verification(email=TestData.email.user, uuid=f'{uuid4()}')
+
+    assert verification.dict() == {'uuid': verification.uuid, 'email': TestData.email.user}
