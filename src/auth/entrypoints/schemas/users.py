@@ -49,3 +49,10 @@ class Registration(BaseModel):
         if (password is not None) and (confirm_password != password):
             raise ValueError('Passwords do not match.')
         return confirm_password
+
+
+class Login(BaseModel):
+
+    access_token: str
+    refresh_token: str
+    token_type: str = 'bearer'

@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Literal
 from uuid import uuid4
 
@@ -8,6 +7,7 @@ from typing_extensions import TypeAlias
 from config import MongoTables
 from main import app
 from src.auth.security import check_password_hash
+from tests.auth.e2e._user import _create_user
 from tests.conftest import TestData
 
 registration_data: TypeAlias = dict[Literal['username', 'email', 'password', 'confirm_password', 'uuid'], str]
@@ -27,28 +27,6 @@ def _get_registration_data(
         'confirm_password': password,
         'uuid': uuid,
     }
-
-
-def _create_user(
-    *,
-    e2e,
-    username: str = TestData.username.test,
-    email: str = TestData.email.user,
-    password: str = TestData.password.strong,
-) -> None:
-    e2e.session.execute(
-        'INSERT INTO users (username, email, password, otp_secret, otp, is_superuser, avatar, date_joined, uuid)'
-        ' VALUES (:username, :email, :password, :secret, FALSE, FALSE, NULL, :date_joined, :uuid)',
-        {
-            'username': username,
-            'email': email,
-            'password': password,
-            'secret': 'secret',
-            'date_joined': datetime.utcnow(),
-            'uuid': f'{uuid4()}',
-        },
-    )
-    e2e.session.commit()
 
 
 def _create_verification(*, e2e, email: str = TestData.email.user) -> str:
