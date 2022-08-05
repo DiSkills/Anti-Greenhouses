@@ -1,6 +1,7 @@
 import re
 import string
 from typing import Generator, Callable, Literal
+from uuid import uuid4
 
 from pydantic import BaseModel, EmailStr, validator
 
@@ -49,6 +50,17 @@ class Registration(BaseModel):
         if (password is not None) and (confirm_password != password):
             raise ValueError('Passwords do not match.')
         return confirm_password
+
+    class Config:
+        schema_extra = {
+            'example': {
+                'username': 'string',
+                'uuid': f'{uuid4()}',
+                'email': 'user@example.com',
+                'password': 'Password1!',
+                'confirm_password': 'Password1!'
+            }
+        }
 
 
 class Login(BaseModel):
