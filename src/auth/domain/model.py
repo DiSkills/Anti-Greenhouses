@@ -1,10 +1,33 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union, Callable
+from uuid import uuid4
 
 import config
 
-pwd_context = config.get_pwd_context()
+
+@dataclass
+class BadLogin:
+
+    uuid: str
+    ip_address: Optional[str] = None
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, BadLogin):
+            return False
+        return self.uuid == other.uuid
+
+    def __repr__(self) -> str:
+        return f'<BadLogin {self.uuid}>'
+
+    def __hash__(self) -> int:
+        return hash(self.uuid)
+
+    def dict(self) -> dict[str, Optional[str]]:
+        return {
+            'uuid': self.uuid,
+            'ip_address': self.ip_address,
+        }
 
 
 @dataclass
@@ -23,6 +46,12 @@ class Verification:
 
     def __hash__(self) -> int:
         return hash(self.uuid)
+
+    def dict(self) -> dict[str, str]:
+        return {
+            'uuid': self.uuid,
+            'email': self.email,
+        }
 
 
 @dataclass
@@ -53,17 +82,18 @@ class User:
         username: str,
         email: str,
         password: str,
+        uuid: Union[str, Callable] = lambda: f'{uuid4()}',
         otp_secret: str = '',  # TODO add default
         otp: bool = False,
         is_superuser: bool = False,
         avatar: Optional[str] = None,
-        date_joined: datetime = datetime.utcnow(),
+        date_joined: Union[datetime, Callable] = datetime.utcnow,
     ) -> None:
         self.username = username
         self.email = email
         self.password = password
+
         self.avatar = avatar
-        self.date_joined = date_joined
 
         self.otp = otp
         self.otp_secret = otp_secret
@@ -71,6 +101,16 @@ class User:
         self.is_superuser = is_superuser
 
         self._actions: set[UserAction] = set()
+
+        if isinstance(uuid, str):
+            self.uuid = uuid
+        else:
+            self.uuid = uuid()
+
+        if isinstance(date_joined, datetime):
+            self.date_joined = date_joined
+        else:
+            self.date_joined = date_joined()
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, User):
@@ -105,11 +145,3 @@ def add_action(*, action: UserAction, user: User) -> None:
 
 def remove_action(*, action: UserAction, user: User) -> None:
     user.remove_action(action=action)
-
-
-def get_password_hash(*, password: str) -> str:
-    return pwd_context.hash(password)
-
-
-def check_password_hash(*, password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(password, hashed_password)

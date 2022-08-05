@@ -5,18 +5,11 @@ import config
 from config import metadata
 from src.auth.domain import model
 
-verifications = Table(
-    'verifications',
-    metadata,
-    Column('id', Integer, primary_key=True, autoincrement=True, unique=True, nullable=False),
-    Column('uuid', String, unique=True, nullable=False),
-    Column('email', String, unique=True, nullable=False),
-)
-
 users = Table(
     'users',
     metadata,
     Column('id', Integer, primary_key=True, autoincrement=True, unique=True, nullable=False),
+    Column('uuid', String, unique=True, nullable=False),
     Column('username', String, unique=True, nullable=False),
     Column('email', String, unique=True, nullable=False),
     Column('password', String, nullable=False),
@@ -53,7 +46,6 @@ def auth_start_mappers() -> None:
         :rtype: None
     """
 
-    mapper(model.Verification, verifications)
     actions_mapper = mapper(model.UserAction, actions)
     mapper(
         model.User,

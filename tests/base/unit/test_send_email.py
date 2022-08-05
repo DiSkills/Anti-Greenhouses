@@ -5,7 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import config
-from src.base.schemas import File
+from src.base.entrypoints.schemas import File
 from src.base.send_email import Email
 from tests.conftest import TestData
 

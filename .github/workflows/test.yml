@@ -4,11 +4,8 @@ on:
   push:
     branches:
       - master
-      - dev
+      - 'releases/**'
   pull_request:
-    branches:
-      - master
-      - dev
 
 jobs:
   test:
@@ -33,11 +30,25 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      mongo:
+        image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.POSTGRES_USER }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     env:
       TITLE: ${{ secrets.TITLE }}
       VERSION: ${{ secrets.VERSION }}
       DESCRIPTION: ${{ secrets.DESCRIPTION }}
       API_URL: ${{ secrets.API_URL }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
       DB_NAME: ${{ secrets.POSTGRES_USER }}
       DB_USER: ${{ secrets.POSTGRES_USER }}
@@ -49,6 +60,12 @@ jobs:
       EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
       EMAIL_USER: ${{ secrets.EMAIL_USER }}
       EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+
+      MONGO_NAME: ${{ secrets.POSTGRES_USER }}
+      MONGO_USER: ${{ secrets.POSTGRES_USER }}
+      MONGO_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      MONGO_HOST: localhost
+      MONGO_PORT: 27017
 
     steps:
       - uses: actions/checkout@v3

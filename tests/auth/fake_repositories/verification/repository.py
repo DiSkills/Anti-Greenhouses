@@ -1,14 +1,12 @@
 from typing import Optional
 
 from src.auth.domain import model
-from tests.base.fake_session import FakeSession
 
 
 class FakeVerificationRepository:
 
-    def __init__(self, *, session: FakeSession, verifications: list[model.Verification]) -> None:
+    def __init__(self, *, verifications: list[model.Verification]) -> None:
         self._verifications = set(verifications)
-        self.session = session
 
     def add(self, *, verification: model.Verification) -> None:
         self._verifications.add(verification)
@@ -39,34 +37,3 @@ class FakeVerificationRepository:
 
         if verification is not None:
             self._verifications.remove(verification)
-
-
-class FakeUserRepository:
-
-    def __init__(self, *, session: FakeSession, users: list[model.User]) -> None:
-        self._users = set(users)
-        self.session = session
-
-    def add(self, *, user: model.User) -> None:
-        self._users.add(user)
-
-    def _get(self, **filtration: str) -> Optional[model.User]:
-        # Get by email and username
-        if ('username' in filtration) and ('email' in filtration):
-            return next(
-                u for u in self._users if (u.username == filtration['username']) and (u.email == filtration['email'])
-            )
-        # Get by username
-        elif 'username' in filtration:
-            return next(u for u in self._users if u.username == filtration['username'])
-        # Get by email
-        elif 'email' in filtration:
-            return next(u for u in self._users if u.email == filtration['email'])
-
-        return None
-
-    def get(self, **filtration: str) -> Optional[model.User]:
-        try:
-            return self._get(**filtration)
-        except StopIteration:
-            return None

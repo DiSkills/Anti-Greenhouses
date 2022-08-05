@@ -1,14 +1,15 @@
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, HTTPException, status
 
-from src.auth.entrypoints.schemas import verifications as schemas
-from src.auth.services import exceptions, services
+from src.auth import exceptions
+from src.auth.entrypoints.schemas.verifications import RegistrationRequest
+from src.auth.services import registration_request as services
 from src.base.aliases import Msg
-from src.base.schemas import Message
+from src.base.entrypoints.schemas import Message
 
-verifications = APIRouter(prefix='/auth', tags=['auth'])
+registration_request_router = APIRouter()
 
 
-@verifications.post(
+@registration_request_router.post(
     r'/registration/request',
     name='registration_request',
     description='Send verification mail for registration',
@@ -16,7 +17,7 @@ verifications = APIRouter(prefix='/auth', tags=['auth'])
     response_description='Message',
     response_model=Message,
 )
-async def registration_request(schema: schemas.RegistrationRequest) -> Msg:
+async def registration_request(schema: RegistrationRequest) -> Msg:
 
     try:
         services.registration_request(email=schema.email)

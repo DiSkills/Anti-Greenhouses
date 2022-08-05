@@ -1,14 +1,15 @@
-from fastapi import APIRouter, status, Request, HTTPException
+from fastapi import APIRouter, Request, HTTPException, status
 
-from src.auth.entrypoints.schemas import users as schemas
-from src.auth.services import services, exceptions
+from src.auth import exceptions
+from src.auth.entrypoints.schemas.users import Registration
+from src.auth.services import registration as services
 from src.base.aliases import Msg
-from src.base.schemas import Message
+from src.base.entrypoints.schemas import Message
 
-users = APIRouter(prefix='/auth', tags=['auth'])
+registration_router = APIRouter()
 
 
-@users.post(
+@registration_router.post(
     r'/registration',
     name='registration',
     description='Registration',
@@ -16,9 +17,9 @@ users = APIRouter(prefix='/auth', tags=['auth'])
     response_description='Message',
     response_model=Message,
 )
-def registration(request: Request, schema: schemas.Registration) -> Msg:
+async def registration(request: Request, schema: Registration) -> Msg:
     try:
-        services.registration(schema=schema, ip_address=request.headers.get('x-forwarded-for'))
+        services.registration(schema=schema, ip_address=request.state.ip)
     except exceptions.UserWithUsernameExists:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='User with this username exists.')
     except exceptions.UserWithEmailExists:

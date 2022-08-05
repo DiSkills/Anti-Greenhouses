@@ -10,3 +10,7 @@
 /configs/config.docker.db.env
 /configs/config.docker.worker.env
 /configs/config.email.env
+/configs/config.mongo.env
+/configs/config.docker.mongo.env
+
+/.coverage

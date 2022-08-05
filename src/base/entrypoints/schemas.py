@@ -6,6 +6,11 @@ class Message(BaseModel):
     msg: str
 
 
+class HTTPError(BaseModel):
+
+    detail: str
+
+
 class File(BaseModel):
 
     filename: str

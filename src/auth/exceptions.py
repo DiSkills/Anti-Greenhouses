@@ -16,3 +16,7 @@ class VerificationNotFound(Exception):
 
 class BadVerificationUUID(Exception):
     pass
+
+
+class InvalidUsernameOrPassword(Exception):
+    pass

@@ -1,20 +1,23 @@
 from typing import Optional
 
-from sqlalchemy.orm import Session
+from pymongo.collection import Collection
 
 from src.auth.domain import model
 
 
 class VerificationRepository:
 
-    def __init__(self, *, session: Session) -> None:
-        self.session = session
+    def __init__(self, *, collection: Collection) -> None:
+        self.collection = collection
 
     def add(self, *, verification: model.Verification) -> None:
-        self.session.add(verification)
+        self.collection.insert_one(verification.dict())
 
     def get(self, **filtration: str) -> Optional[model.Verification]:
-        return self.session.query(model.Verification).filter_by(**filtration).first()
+        data = self.collection.find_one(filtration)
+        if data is not None:
+            data = model.Verification(uuid=data['uuid'], email=data['email'])
+        return data
 
     def remove(self, **filtration: str) -> None:
-        self.session.query(model.Verification).filter_by(**filtration).delete()
+        self.collection.delete_one(filtration)

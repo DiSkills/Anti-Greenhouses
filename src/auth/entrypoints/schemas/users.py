@@ -1,6 +1,7 @@
 import re
 import string
 from typing import Generator, Callable, Literal
+from uuid import uuid4
 
 from pydantic import BaseModel, EmailStr, validator
 
@@ -36,7 +37,8 @@ class Registration(BaseModel):
     @validator('username')
     def validate_username(cls, username: str) -> str:
         # True if it contains at least 3 letters of the English alphabet
-        if not re.fullmatch(r'[A-Za-z]{3,}', username):
+        # After can contain any number of letters, numbers and "_.-"
+        if not re.fullmatch(r'[A-Za-z]{3,}[A-Za-z\d_.-]*', username):
             raise ValueError('Invalid username.')
         return username
 
@@ -48,3 +50,21 @@ class Registration(BaseModel):
         if (password is not None) and (confirm_password != password):
             raise ValueError('Passwords do not match.')
         return confirm_password
+
+    class Config:
+        schema_extra = {
+            'example': {
+                'username': 'string',
+                'uuid': f'{uuid4()}',
+                'email': 'user@example.com',
+                'password': 'Password1!',
+                'confirm_password': 'Password1!'
+            }
+        }
+
+
+class Login(BaseModel):
+
+    access_token: str
+    refresh_token: str
+    token_type: str = 'bearer'
